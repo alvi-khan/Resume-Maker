@@ -1,7 +1,12 @@
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart' hide ModalBottomSheetRoute;
 import 'package:the_pixel_pioneers/components/edit_profile.dart';
+import 'package:the_pixel_pioneers/components/edit_resume.dart';
+import 'package:the_pixel_pioneers/components/preview.dart';
 import 'package:the_pixel_pioneers/services/authentication.dart';
+
+import '../services/database.dart';
 
 class Profile extends StatefulWidget {
   const Profile({Key? key}) : super(key: key);
@@ -11,6 +16,7 @@ class Profile extends StatefulWidget {
 }
 
 class _ProfileState extends State<Profile> {
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -102,7 +108,9 @@ class Modal extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         children: [
           TextButton(
-              onPressed: () => {},
+              onPressed: () => Navigator.of(context).push(
+                MaterialPageRoute(builder: (context) => Preview()),
+              ),
               child: Text("Preview Resume"),
               style: ButtonStyle(
                 backgroundColor: MaterialStateProperty.all<Color>(Colors.greenAccent.shade700),
@@ -110,7 +118,9 @@ class Modal extends StatelessWidget {
               )
           ),
           TextButton(
-              onPressed: () => {},
+              onPressed: () => Navigator.of(context).push(
+                MaterialPageRoute(builder: (context) => EditResume()),
+              ),
               child: Text("Edit Resume"),
               style: ButtonStyle(
                 backgroundColor: MaterialStateProperty.all<Color>(Colors.blueAccent.shade700),
@@ -131,9 +141,35 @@ class Modal extends StatelessWidget {
   }
 }
 
-class ProfileSection extends StatelessWidget {
-  String name = "Bertram Gilfoyle";
-  String profession = "Software Engineer";
+class ProfileSection extends StatefulWidget {
+  @override
+  State<ProfileSection> createState() => _ProfileSectionState();
+}
+
+class _ProfileSectionState extends State<ProfileSection> {
+
+  String name="";
+  String profession="";
+
+  void getData() async {
+    DocumentSnapshot<Map<String, dynamic>>? doc = await Database.getProfile();
+    if (doc == null) {
+      name = "Set Name";
+      profession = "Set Profession";
+    }
+    else{
+      name = doc.data()!['name'];
+      profession = doc.data()!['profession'];
+    }
+    setState(() {});
+  }
+
+  @override
+  void initState() {
+    getData();
+    super.initState();
+  }
+
 
   @override
   Widget build(BuildContext context) {

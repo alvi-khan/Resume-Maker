@@ -14,6 +14,7 @@ class _EditProfileState extends State<EditProfile> {
   TextEditingController _mobileNumberController = TextEditingController();
   TextEditingController _linkedinUrlController = TextEditingController();
   TextEditingController _experienceController = TextEditingController();
+  TextEditingController _professionController = TextEditingController();
 
   void getData() async {
     DocumentSnapshot? doc = await Database.getProfile();
@@ -22,6 +23,7 @@ class _EditProfileState extends State<EditProfile> {
     _mobileNumberController.text = doc['mobile'];
     _linkedinUrlController.text = doc['linkedinurl'];
     _experienceController.text = doc['experience'];
+    _professionController.text = doc['profession'];
   }
   @override
   void initState() {
@@ -59,6 +61,16 @@ class _EditProfileState extends State<EditProfile> {
               decoration: const InputDecoration(
                 border: OutlineInputBorder(),
                 hintText: "Mobile Number",
+              ),
+            ),
+            const SizedBox(
+              height: 26.0,
+            ),
+            TextField(
+              controller: _professionController,
+              decoration: const InputDecoration(
+                border: OutlineInputBorder(),
+                hintText: "Profession",
               ),
             ),
             const SizedBox(
