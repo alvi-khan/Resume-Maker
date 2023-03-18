@@ -251,6 +251,30 @@ class _EditResumeState extends State<EditResume> {
                   ],
                 ),
               ),
+              const SizedBox(
+                height: 30.0,
+              ),
+              SizedBox(
+                width: MediaQuery.of(context).size.width * 0.85,
+                child: RawMaterialButton(
+                  fillColor: Colors.deepPurple,
+                  padding: const EdgeInsets.symmetric(vertical: 20.0),
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(12.0)),
+                  onPressed: () async {},
+                  child: Text(
+                    'Preview',
+                    style: TextStyle(
+                        color: Colors.white,
+                      fontSize: 17,
+                      fontWeight: FontWeight.bold
+                    ),
+                  ),
+                ),
+              ),
+              const SizedBox(
+                height: 20.0,
+              ),
             ],
           ),
         ),

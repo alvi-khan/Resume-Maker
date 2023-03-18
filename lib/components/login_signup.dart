@@ -40,7 +40,8 @@ class _LoginPageState extends State<LoginPage> {
             Center(
               child: Image.asset(
                 'assets/images/login.png',
-                height: 300,
+                height: MediaQuery.of(context).size.height * 0.3,
+                // height: 260,
               ),
             ),
             const SizedBox(
@@ -117,7 +118,7 @@ class Button extends StatelessWidget {
     return TextButton(
         onPressed: onPressed,
         style: TextButton.styleFrom(
-          backgroundColor: const Color(0xFF0069FE),
+          backgroundColor: Colors.deepPurple,
           foregroundColor: Colors.white,
           padding: const EdgeInsets.symmetric(vertical: 20.0),
           shape:
