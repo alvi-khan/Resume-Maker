@@ -22,117 +22,123 @@ class _EducationState extends State<Education> {
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const SizedBox(
-              height: 16.0,
-            ),
-            const Text(
-              'Degree',
-              style: TextStyle(
-                fontWeight: FontWeight.bold,
-                fontSize: 16,
-              ),
-            ),
-            const SizedBox(
-              height: 5.0,
-            ),
-            TextField(
-              controller: _degreeController,
-              minLines: 4,
-              maxLines: null,
-              keyboardType: TextInputType.multiline,
-              decoration: const InputDecoration(
-                border: OutlineInputBorder(),
-                hintText: "Example- BSc in Engineering",
-              ),
-            ),
-            const SizedBox(
-              height: 26.0,
-            ),
-            const Text(
-              'Institution',
-              style: TextStyle(
-                fontWeight: FontWeight.bold,
-                fontSize: 16,
-              ),
-            ),
-            const SizedBox(
-              height: 5.0,
-            ),
-            TextField(
-              controller: _institutionController,
-              keyboardType: TextInputType.name,
-              decoration: const InputDecoration(
-                border: OutlineInputBorder(),
-                hintText: "Example- IUT",
-              ),
-            ),
-            const SizedBox(
-              height: 26.0,
-            ),
-            const Text(
-              'Result',
-              style: TextStyle(
-                fontWeight: FontWeight.bold,
-                fontSize: 16,
-              ),
-            ),
-            const SizedBox(
-              height: 5.0,
-            ),
-            TextField(
-              controller: _resultController,
-              keyboardType: TextInputType.number,
-              decoration: const InputDecoration(
-                border: OutlineInputBorder(),
-                hintText: "Examination score (CGPA)",
-              ),
-            ),
-            const SizedBox(
-              height: 26.0,
-            ),
-            const Text(
-              'Graduation Date',
-              style: TextStyle(
-                fontWeight: FontWeight.bold,
-                fontSize: 16,
-              ),
-            ),
-            const SizedBox(
-              height: 5.0,
-            ),
-            TextField(
-              controller: _graduationDateController,
-              keyboardType: TextInputType.datetime,
-              decoration: const InputDecoration(
-                border: OutlineInputBorder(),
-                hintText: "date/month/year",
-              ),
-            ),
-            const Spacer(),
-            Align(
-                alignment: FractionalOffset.bottomCenter,
-                child: SizedBox(
-                  width: double.infinity,
-                  child: RawMaterialButton(
-                    fillColor: Colors.deepPurple,
-                    elevation: 0.0,
-                    padding: const EdgeInsets.symmetric(vertical: 18.0),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(50.0),
+            Expanded(
+              child: SingleChildScrollView(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const SizedBox(
+                      height: 16.0,
                     ),
-                    onPressed: () async {
-                      //Save button pressed functionality
-                    },
-                    child: const Text("Save",
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 20.0,
-                        )),
+                    const Text(
+                      'Degree',
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 16,
+                      ),
+                    ),
+                    const SizedBox(
+                      height: 5.0,
+                    ),
+                    TextField(
+                      controller: _degreeController,
+                      keyboardType: TextInputType.text,
+                      decoration: const InputDecoration(
+                        border: OutlineInputBorder(),
+                        hintText: "Example- BSc in Engineering",
+                      ),
+                    ),
+                    const SizedBox(
+                      height: 26.0,
+                    ),
+                    const Text(
+                      'Institution',
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 16,
+                      ),
+                    ),
+                    const SizedBox(
+                      height: 5.0,
+                    ),
+                    TextField(
+                      controller: _institutionController,
+                      keyboardType: TextInputType.text,
+                      decoration: const InputDecoration(
+                        border: OutlineInputBorder(),
+                        hintText: "Example- IUT",
+                      ),
+                    ),
+                    const SizedBox(
+                      height: 26.0,
+                    ),
+                    const Text(
+                      'Result',
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 16,
+                      ),
+                    ),
+                    const SizedBox(
+                      height: 5.0,
+                    ),
+                    TextField(
+                      controller: _resultController,
+                      keyboardType: TextInputType.number,
+                      decoration: const InputDecoration(
+                        border: OutlineInputBorder(),
+                        hintText: "Examination score (CGPA)",
+                      ),
+                    ),
+                    const SizedBox(
+                      height: 26.0,
+                    ),
+                    const Text(
+                      'Graduation Date',
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 16,
+                      ),
+                    ),
+                    const SizedBox(
+                      height: 5.0,
+                    ),
+                    TextField(
+                      controller: _graduationDateController,
+                      keyboardType: TextInputType.datetime,
+                      decoration: const InputDecoration(
+                        border: OutlineInputBorder(),
+                        hintText: "date/month/year",
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+            Align(
+              alignment: FractionalOffset.bottomCenter,
+              child: SizedBox(
+                width: double.infinity,
+                child: RawMaterialButton(
+                  fillColor: Colors.deepPurple,
+                  elevation: 0.0,
+                  padding: const EdgeInsets.symmetric(vertical: 18.0),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(50.0),
                   ),
-                )),
+                  onPressed: () async {
+                    //Save button pressed functionality
+                  },
+                  child: const Text("Save",
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 20.0,
+                      )),
+                ),
+              ),
+            ),
           ],
         ),
       ),
