@@ -86,7 +86,7 @@ class Modal extends StatelessWidget {
               onPressed: () => {},
               child: Text("Preview Resume"),
               style: ButtonStyle(
-                backgroundColor: MaterialStateProperty.all<Color>(Colors.greenAccent.shade400),
+                backgroundColor: MaterialStateProperty.all<Color>(Colors.greenAccent.shade700),
                 foregroundColor: MaterialStateProperty.all<Color>(Colors.white),
               )
           ),
@@ -94,7 +94,7 @@ class Modal extends StatelessWidget {
               onPressed: () => {},
               child: Text("Edit Resume"),
               style: ButtonStyle(
-                backgroundColor: MaterialStateProperty.all<Color>(Colors.blueAccent.shade400),
+                backgroundColor: MaterialStateProperty.all<Color>(Colors.blueAccent.shade700),
                 foregroundColor: MaterialStateProperty.all<Color>(Colors.white),
               )
           ),

@@ -49,7 +49,6 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
             ),
             TextField(
               controller: _nameController,
-              keyboardType: TextInputType.emailAddress,
               decoration: const InputDecoration(
                 border: OutlineInputBorder(),
                 hintText: "Name",
@@ -72,7 +71,17 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
               controller: _linkedinUrlController,
               decoration: const InputDecoration(
                 border: OutlineInputBorder(),
-                hintText: "Linked In URL",
+                hintText: "Address",
+              ),
+            ),
+            const SizedBox(
+              height: 26.0,
+            ),
+            TextField(
+              controller: _linkedinUrlController,
+              decoration: const InputDecoration(
+                border: OutlineInputBorder(),
+                hintText: "LinkedIn URL",
               ),
             ),
             const SizedBox(
@@ -88,12 +97,12 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
               ),
             ),
             const SizedBox(
-              height: 26.0,
+              height: 40.0,
             ),
             Container(
               width: double.infinity,
               child: RawMaterialButton(
-                fillColor: const Color(0xFF0069FE),
+                fillColor: const Color(0xFF6346F6),
                 elevation: 0.0,
                 padding: const EdgeInsets.symmetric(vertical: 20.0),
                 shape: RoundedRectangleBorder(
