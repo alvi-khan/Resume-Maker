@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:the_pixel_pioneers/components/edit_resume.dart';
 import 'package:the_pixel_pioneers/components/profile.dart';
 import 'package:the_pixel_pioneers/firebase_options.dart';
 import '/components/login_signup.dart';
@@ -38,7 +39,8 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: FirebaseAuth.instance.currentUser == null ? LoginPage() : Profile(),
+      body: EditResume(),
+      // body: FirebaseAuth.instance.currentUser == null ? LoginPage() : Profile(),
     );
   }
 }

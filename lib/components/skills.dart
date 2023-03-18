@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:the_pixel_pioneers/services/authentication.dart';
+
+import '../services/database.dart';
 
 class Skills extends StatefulWidget {
   const Skills({super.key});
@@ -66,15 +69,21 @@ class _SkillsState extends State<Skills> {
                   padding: const EdgeInsets.symmetric(vertical: 18.0),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(50.0),
+                    ),
+                    onPressed: () async {
+                      Map<String, String> data = {
+                        'uid': Authentication.auth.currentUser!.uid,
+                        'description': _skillNameController.text
+                      };
+                      Database.setSkills(data);
+                      Navigator.of(context).pop();
+                    },
+                    child: const Text("Save",
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 20.0,
+                        )),
                   ),
-                  onPressed: () async {
-                    //Save button pressed functionality
-                  },
-                  child: const Text("Save",
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 20.0,
-                      )),
                 ),
               ),
             ),

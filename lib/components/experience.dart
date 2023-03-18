@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 
+import '../services/authentication.dart';
+import '../services/database.dart';
+
 class Experience extends StatefulWidget {
   const Experience({super.key});
 
@@ -150,15 +153,24 @@ class _ExperienceState extends State<Experience> {
                   padding: const EdgeInsets.symmetric(vertical: 18.0),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(50.0),
-                  ),
-                  onPressed: () async {
-                    //Save button pressed functionality
-                  },
-                  child: const Text("Save",
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 20.0,
-                      )),
+    ),
+                    onPressed: () async {
+                      Map<String, String> data = {
+                        'uid': Authentication.auth.currentUser!.uid,
+                        'organization_name': _organizationController.text,
+                        'position': _positionController.text,
+                        'start_date': _startDateController.text,
+                        'end_date': _endDateController.text,
+                        'summary': _summaryController.text
+                      };
+                      Database.setExperience(data);
+                      Navigator.of(context).pop();
+                    },
+                    child: const Text("Save",
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 20.0,
+                        )),
                 ),
               ),
             ),

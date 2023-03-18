@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 
+import '../services/authentication.dart';
+import '../services/database.dart';
+
 class Education extends StatefulWidget {
   const Education({super.key});
 
@@ -127,15 +130,23 @@ class _EducationState extends State<Education> {
                   padding: const EdgeInsets.symmetric(vertical: 18.0),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(50.0),
-                  ),
-                  onPressed: () async {
-                    //Save button pressed functionality
-                  },
-                  child: const Text("Save",
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 20.0,
-                      )),
+    ),
+                    onPressed: () async {
+                      Map<String, String> data = {
+                        'uid': Authentication.auth.currentUser!.uid,
+                        'Degree': _degreeController.text,
+                        'Graduation_Date': _graduationDateController.text,
+                        'Institution': _institutionController.text,
+                        'Result': _resultController.text
+                      };
+                      Database.setEducation(data);
+                      Navigator.of(context).pop();
+                    },
+                    child: const Text("Save",
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 20.0,
+                        )),
                 ),
               ),
             ),

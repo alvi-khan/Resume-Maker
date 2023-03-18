@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 
+import '../services/authentication.dart';
+import '../services/database.dart';
+
 class Achievements extends StatefulWidget {
   const Achievements({super.key});
 
@@ -8,7 +11,7 @@ class Achievements extends StatefulWidget {
 }
 
 class _AchievementsState extends State<Achievements> {
-  TextEditingController _occasionController = TextEditingController();
+  TextEditingController _eventController = TextEditingController();
   TextEditingController _awardController = TextEditingController();
   @override
   Widget build(BuildContext context) {
@@ -82,15 +85,21 @@ class _AchievementsState extends State<Achievements> {
                   padding: const EdgeInsets.symmetric(vertical: 18.0),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(50.0),
-                  ),
-                  onPressed: () async {
-                    //Save button pressed functionality
-                  },
-                  child: const Text("Save",
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 20.0,
-                      )),
+                    ),
+                    onPressed: () async {
+                      Map<String, String> data = {
+                        'uid': Authentication.auth.currentUser!.uid,
+                        'event': _eventController.text,
+                        'awards': _awardController.text
+                      };
+                      Database.setAchievements(data);
+                      Navigator.of(context).pop();
+                    },
+                    child: const Text("Save",
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 20.0,
+                        )),
                 ),
               ),
             ),
