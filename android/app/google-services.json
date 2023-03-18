@@ -1,0 +1,76 @@
+{
+  "project_info": {
+    "project_number": "277079554202",
+    "project_id": "hackathon-1f9db",
+    "storage_bucket": "hackathon-1f9db.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:277079554202:android:c851a219a435568bd28723",
+        "android_client_info": {
+          "package_name": "com.example.hackathon"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "277079554202-kmp7ol6uuj1iq2gnjo08irilnpc24auf.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.hackathon",
+            "certificate_hash": "e9c1bba87e40b6c1a4300752a480c19e9aa33528"
+          }
+        },
+        {
+          "client_id": "277079554202-9744jdq50bcdbp9daj5rvdm57cs62vhj.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAIPJ5dZURhqtCdj6L8W2CSrq0gq48Ugos"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "277079554202-9744jdq50bcdbp9daj5rvdm57cs62vhj.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:277079554202:android:7d5df48b44103f59d28723",
+        "android_client_info": {
+          "package_name": "com.example.the_pixel_pioneers"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "277079554202-9744jdq50bcdbp9daj5rvdm57cs62vhj.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAIPJ5dZURhqtCdj6L8W2CSrq0gq48Ugos"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "277079554202-9744jdq50bcdbp9daj5rvdm57cs62vhj.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
