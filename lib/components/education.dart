@@ -5,8 +5,8 @@ import '../services/authentication.dart';
 import '../services/database.dart';
 
 class Education extends StatefulWidget {
-  const Education({super.key, required this.doc});
-  final QueryDocumentSnapshot<Map<String, dynamic>> doc;
+  const Education({super.key, required this.docID});
+  final String docID;
 
   @override
   State<Education> createState() => _EducationState();
@@ -19,10 +19,19 @@ class _EducationState extends State<Education> {
   TextEditingController _graduationDateController = TextEditingController();
 
   void getData() async {
-    _degreeController.text = widget.doc['Degree'];
-    _institutionController.text = widget.doc['Institution'];
-    _resultController.text = widget.doc['Result'];
-    _graduationDateController.text = widget.doc['Graduation_Date'];
+    List<QueryDocumentSnapshot<Map<String, dynamic>>> docs = await Database.getEducation();
+    QueryDocumentSnapshot<Map<String, dynamic>>? thisDoc;
+    for (QueryDocumentSnapshot<Map<String, dynamic>> doc in docs) {
+      if (doc.id == widget.docID) {
+        thisDoc = doc;
+      }
+    }
+    if (thisDoc == null)  throw Exception("Document not found.");
+
+    _degreeController.text = thisDoc.data()['Degree'];
+    _institutionController.text = thisDoc.data()['Institution'];
+    _resultController.text = thisDoc.data()['Result'];
+    _graduationDateController.text = thisDoc.data()['Graduation_Date'];
   }
 
   @override

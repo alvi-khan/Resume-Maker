@@ -57,22 +57,34 @@ class Database {
   }
 
   static Future<bool> setEducation(data) async {
-    await db.collection("education").add(data);
+    User? user = Authentication.auth.currentUser;
+    QuerySnapshot<Map<String, dynamic>> docs = await db.collection("education").where("uid", isEqualTo: user!.uid).limit(1).get();
+    String docID = docs.docs[0].id;
+    await db.collection("education").doc(docID).set(data);
     return true;
   }
 
   static Future<bool> setExperience(data) async {
-    await db.collection("experience").add(data);
+    User? user = Authentication.auth.currentUser;
+    QuerySnapshot<Map<String, dynamic>> docs = await db.collection("experience").where("uid", isEqualTo: user!.uid).limit(1).get();
+    String docID = docs.docs[0].id;
+    await db.collection("experience").doc(docID).set(data);
     return true;
   }
 
   static Future<bool> setSkills(data) async {
-    await db.collection("skills").add(data);
+    User? user = Authentication.auth.currentUser;
+    QuerySnapshot<Map<String, dynamic>> docs = await db.collection("skills").where("uid", isEqualTo: user!.uid).limit(1).get();
+    String docID = docs.docs[0].id;
+    await db.collection("skills").doc(docID).set(data);
     return true;
   }
 
   static Future<bool> setAchievements(data) async {
-    await db.collection("achievements").add(data);
+    User? user = Authentication.auth.currentUser;
+    QuerySnapshot<Map<String, dynamic>> docs = await db.collection("achievements").where("uid", isEqualTo: user!.uid).limit(1).get();
+    String docID = docs.docs[0].id;
+    await db.collection("achievements").doc(docID).set(data);
     return true;
   }
 }

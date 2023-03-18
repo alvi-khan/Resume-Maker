@@ -59,17 +59,12 @@ class _EditResumeState extends State<EditResume> {
                         Spacer(),
                         Padding(
                           padding: const EdgeInsets.all(20.0),
-                          child: RawMaterialButton(
-                            fillColor: const Color(0xFF0069FE),
-                            padding: const EdgeInsets.symmetric(vertical: 20.0),
-                            shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(12.0)),
-                            onPressed: () async {},
-                            child: Text(
-                              'Edit',
-                              style: TextStyle(color: Colors.white),
-                            ),
-                          ),
+                          child: IconButton(
+                              onPressed: () => {},
+                              icon: Icon(Icons.add_circle_rounded, color: Color(0xFF6356C7),
+                                size: 36,
+                              )
+                          )
                         ),
                       ],
                     ),
@@ -90,7 +85,7 @@ class _EditResumeState extends State<EditResume> {
                                   style: TextStyle(fontSize: 12),
                                 ),
                                 onPressed: () => Navigator.of(context).push(
-                                  MaterialPageRoute(builder: (context) => Education(doc: result)),
+                                  MaterialPageRoute(builder: (context) => Education(docID: result.id)),
                                 ),
                               )
                             ],
@@ -126,17 +121,12 @@ class _EditResumeState extends State<EditResume> {
                         Spacer(),
                         Padding(
                           padding: const EdgeInsets.all(20.0),
-                          child: RawMaterialButton(
-                            fillColor: const Color(0xFF0069FE),
-                            padding: const EdgeInsets.symmetric(vertical: 20.0),
-                            shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(12.0)),
-                            onPressed: () async {},
-                            child: Text(
-                              'Edit',
-                              style: TextStyle(color: Colors.white),
-                            ),
-                          ),
+                          child: IconButton(
+                              onPressed: () => {},
+                              icon: Icon(Icons.add_circle_rounded, color: Color(0xFF6356C7),
+                                size: 36,
+                              )
+                          )
                         ),
                       ],
                     ),
@@ -176,17 +166,12 @@ class _EditResumeState extends State<EditResume> {
                         Spacer(),
                         Padding(
                           padding: const EdgeInsets.all(20.0),
-                          child: RawMaterialButton(
-                            fillColor: const Color(0xFF0069FE),
-                            padding: const EdgeInsets.symmetric(vertical: 20.0),
-                            shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(12.0)),
-                            onPressed: () async {},
-                            child: Text(
-                              'Edit',
-                              style: TextStyle(color: Colors.white),
-                            ),
-                          ),
+                          child: IconButton(
+                              onPressed: () => {},
+                              icon: Icon(Icons.add_circle_rounded, color: Color(0xFF6356C7),
+                                size: 36,
+                              )
+                          )
                         ),
                       ],
                     ),
@@ -226,17 +211,12 @@ class _EditResumeState extends State<EditResume> {
                         Spacer(),
                         Padding(
                           padding: const EdgeInsets.all(20.0),
-                          child: RawMaterialButton(
-                            fillColor: const Color(0xFF0069FE),
-                            padding: const EdgeInsets.symmetric(vertical: 20.0),
-                            shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(12.0)),
-                            onPressed: () async {},
-                            child: Text(
-                              'Edit',
-                              style: TextStyle(color: Colors.white),
-                            ),
-                          ),
+                          child: IconButton(
+                              onPressed: () => {},
+                              icon: Icon(Icons.add_circle_rounded, color: Color(0xFF6356C7),
+                                size: 36,
+                              )
+                          )
                         ),
                       ],
                     ),

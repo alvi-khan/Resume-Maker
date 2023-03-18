@@ -130,7 +130,8 @@ class _EditProfileState extends State<EditProfile> {
                   'name': _nameController.text,
                   'mobile': _mobileNumberController.text,
                   'linkedinurl': _linkedinUrlController.text,
-                  'experience': _experienceController.text
+                  'experience': _experienceController.text,
+                  'profession': _professionController.text,
                 };
                 Database.setProfile(data);
                 Navigator.of(context).pop();

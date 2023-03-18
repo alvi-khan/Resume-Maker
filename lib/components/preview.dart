@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:the_pixel_pioneers/templates/template1.dart';
 
 class Preview extends StatefulWidget {
   const Preview({Key? key}) : super(key: key);
@@ -35,7 +36,7 @@ class _PreviewState extends State<Preview> {
             Text("Preview"),
             Image(image: AssetImage("assets/images/resume_sample.jpg")),
             TextButton(
-                onPressed: () => {},
+                onPressed: () => Template1().generate(),
                 child: Text("Download"),
                 style: ButtonStyle(
                   backgroundColor: MaterialStateProperty.all<Color>(Colors.greenAccent.shade400),

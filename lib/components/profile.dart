@@ -79,7 +79,7 @@ class Resumes extends StatelessWidget {
                         onPressed: () async => await showModalBottomSheet(
                         context: context,
                         shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(12.0)
+                            borderRadius: BorderRadius.circular(36.0)
                         ),
                         builder: (BuildContext context) => Modal()
                     ),
@@ -103,37 +103,60 @@ class Modal extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.all(24.0),
+      padding: const EdgeInsets.all(36.0),
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          TextButton(
-              onPressed: () => Navigator.of(context).push(
-                MaterialPageRoute(builder: (context) => Preview()),
-              ),
-              child: Text("Preview Resume"),
-              style: ButtonStyle(
-                backgroundColor: MaterialStateProperty.all<Color>(Colors.greenAccent.shade700),
-                foregroundColor: MaterialStateProperty.all<Color>(Colors.white),
-              )
+          SizedBox(
+            width: 300,
+            height: 50,
+            child: TextButton(
+                onPressed: () => Navigator.of(context).push(
+                  MaterialPageRoute(builder: (context) => Preview()),
+                ),
+                child: Text("Preview Resume"),
+                style: TextButton.styleFrom(
+                  backgroundColor: Color(0xFF27AE60),
+                  foregroundColor: Colors.white,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(16),
+                  )
+                ),
+            ),
           ),
-          TextButton(
-              onPressed: () => Navigator.of(context).push(
-                MaterialPageRoute(builder: (context) => EditResume()),
+          SizedBox(height: 20),
+          SizedBox(
+            width: 300,
+            height: 50,
+            child: TextButton(
+                onPressed: () => Navigator.of(context).push(
+                  MaterialPageRoute(builder: (context) => EditResume()),
+                ),
+                child: Text("Edit Resume"),
+              style: TextButton.styleFrom(
+                  backgroundColor: Color(0xFF2F80ED),
+                  foregroundColor: Colors.white,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(16),
+                  )
               ),
-              child: Text("Edit Resume"),
-              style: ButtonStyle(
-                backgroundColor: MaterialStateProperty.all<Color>(Colors.blueAccent.shade700),
-                foregroundColor: MaterialStateProperty.all<Color>(Colors.white),
-              )
+            ),
           ),
-          TextButton(
-              onPressed: () => {},
-              child: Text("Delete Resume"),
-              style: ButtonStyle(
-                backgroundColor: MaterialStateProperty.all<Color>(Colors.redAccent.shade400),
-                foregroundColor: MaterialStateProperty.all<Color>(Colors.white),
-              )
+          SizedBox(height: 20),
+          SizedBox(
+            width: 300,
+            height: 50,
+            child: TextButton(
+                onPressed: () => {},
+                child: Text("Delete Resume"),
+              style: TextButton.styleFrom(
+                  backgroundColor: Color(0xFFEB5757),
+                  foregroundColor: Colors.white,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(16),
+                  )
+              ),
+            ),
           ),
         ],
       ),
@@ -191,7 +214,7 @@ class _ProfileSectionState extends State<ProfileSection> {
               TextButton(
                   onPressed: () => Navigator.of(context).push(
                       MaterialPageRoute(builder: (context) => EditProfile()),
-                  ),
+                  ).then((value) => getData()),
                   child: Text("Edit Profile"),
                   style: TextButton.styleFrom(
                     backgroundColor: Colors.deepPurple.shade400,
