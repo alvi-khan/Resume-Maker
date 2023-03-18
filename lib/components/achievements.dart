@@ -43,7 +43,7 @@ class _AchievementsState extends State<Achievements> {
                       height: 5.0,
                     ),
                     TextField(
-                      controller: _occasionController,
+                      controller: _eventController,
                       keyboardType: TextInputType.text,
                       decoration: const InputDecoration(
                         border: OutlineInputBorder(),

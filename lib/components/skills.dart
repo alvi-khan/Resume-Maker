@@ -86,7 +86,6 @@ class _SkillsState extends State<Skills> {
                   ),
                 ),
               ),
-            ),
           ],
         ),
       ),
