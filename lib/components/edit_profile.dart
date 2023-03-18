@@ -25,6 +25,7 @@ class _EditProfileState extends State<EditProfile> {
     _experienceController.text = doc['experience'];
     _professionController.text = doc['profession'];
   }
+
   @override
   void initState() {
     getData();
@@ -39,104 +40,111 @@ class _EditProfileState extends State<EditProfile> {
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            const SizedBox(
-              height: 16.0,
-            ),
-            TextField(
-              controller: _nameController,
-              decoration: const InputDecoration(
-                border: OutlineInputBorder(),
-                hintText: "Name",
+        child: Column(children: [
+          Expanded(
+            child: SingleChildScrollView(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const SizedBox(
+                    height: 16.0,
+                  ),
+                  TextField(
+                    controller: _nameController,
+                    decoration: const InputDecoration(
+                      border: OutlineInputBorder(),
+                      hintText: "Name",
+                    ),
+                  ),
+                  const SizedBox(
+                    height: 26.0,
+                  ),
+                  TextField(
+                    controller: _mobileNumberController,
+                    decoration: const InputDecoration(
+                      border: OutlineInputBorder(),
+                      hintText: "Mobile Number",
+                    ),
+                  ),
+                  const SizedBox(
+                    height: 26.0,
+                  ),
+                  TextField(
+                    controller: _professionController,
+                    decoration: const InputDecoration(
+                      border: OutlineInputBorder(),
+                      hintText: "Profession",
+                    ),
+                  ),
+                  const SizedBox(
+                    height: 26.0,
+                  ),
+                  TextField(
+                    controller: _linkedinUrlController,
+                    decoration: const InputDecoration(
+                      border: OutlineInputBorder(),
+                      hintText: "Address",
+                    ),
+                  ),
+                  const SizedBox(
+                    height: 26.0,
+                  ),
+                  TextField(
+                    controller: _linkedinUrlController,
+                    decoration: const InputDecoration(
+                      border: OutlineInputBorder(),
+                      hintText: "LinkedIn URL",
+                    ),
+                  ),
+                  const SizedBox(
+                    height: 26.0,
+                  ),
+                  TextField(
+                    controller: _experienceController,
+                    keyboardType: TextInputType.multiline,
+                    maxLines: null,
+                    decoration: const InputDecoration(
+                      border: OutlineInputBorder(),
+                      hintText: "Experience",
+                    ),
+                  ),
+                  const SizedBox(
+                    height: 40.0,
+                  ),
+                ],
               ),
             ),
-            const SizedBox(
-              height: 26.0,
-            ),
-            TextField(
-              controller: _mobileNumberController,
-              decoration: const InputDecoration(
-                border: OutlineInputBorder(),
-                hintText: "Mobile Number",
+          ),
+          Container(
+            width: double.infinity,
+            child: RawMaterialButton(
+              fillColor: const Color(0xFF6346F6),
+              elevation: 0.0,
+              padding: const EdgeInsets.symmetric(vertical: 20.0),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(50.0),
               ),
-            ),
-            const SizedBox(
-              height: 26.0,
-            ),
-            TextField(
-              controller: _professionController,
-              decoration: const InputDecoration(
-                border: OutlineInputBorder(),
-                hintText: "Profession",
-              ),
-            ),
-            const SizedBox(
-              height: 26.0,
-            ),
-            TextField(
-              controller: _linkedinUrlController,
-              decoration: const InputDecoration(
-                border: OutlineInputBorder(),
-                hintText: "Address",
-              ),
-            ),
-            const SizedBox(
-              height: 26.0,
-            ),
-            TextField(
-              controller: _linkedinUrlController,
-              decoration: const InputDecoration(
-                border: OutlineInputBorder(),
-                hintText: "LinkedIn URL",
-              ),
-            ),
-            const SizedBox(
-              height: 26.0,
-            ),
-            TextField(
-              controller: _experienceController,
-              keyboardType: TextInputType.multiline,
-              maxLines: null,
-              decoration: const InputDecoration(
-                border: OutlineInputBorder(),
-                hintText: "Experience",
-              ),
-            ),
-            const SizedBox(
-              height: 40.0,
-            ),
-            Container(
-              width: double.infinity,
-              child: RawMaterialButton(
-                fillColor: const Color(0xFF6346F6),
-                elevation: 0.0,
-                padding: const EdgeInsets.symmetric(vertical: 20.0),
-                shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(12.0)
+              onPressed: () async {
+                Map<String, String> data = {
+                  'name': _nameController.text,
+                  'mobile': _mobileNumberController.text,
+                  'linkedinurl': _linkedinUrlController.text,
+                  'experience': _experienceController.text
+                };
+                Database.setProfile(data);
+                Navigator.of(context).pop();
+              },
+              child: const Text(
+                "Update",
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 18.0,
                 ),
-                onPressed: () async {
-                  Map<String, String> data = {
-                    'name': _nameController.text,
-                    'mobile': _mobileNumberController.text,
-                    'linkedinurl': _linkedinUrlController.text,
-                    'experience': _experienceController.text
-                  };
-                  Database.setProfile(data);
-                  Navigator.of(context).pop();
-                },
-                child: const Text("Update",
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 18.0,
-                    )
-                ),
               ),
             ),
-          ],
-        ),
+          ),
+        ]),
       ),
     );
   }
