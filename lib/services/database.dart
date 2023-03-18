@@ -18,9 +18,41 @@ class Database {
     return db.collection("profile").doc(user.uid).get();
   }
 
-  static Future<List<QueryDocumentSnapshot<Map<String, dynamic>>>> getEducation() async {
+  static Future<List<QueryDocumentSnapshot<Map<String, dynamic>>>>
+      getEducation() async {
     User? user = Authentication.auth.currentUser;
-    var results = await db.collection("education").where("uid", isEqualTo: user!.uid).get();
+    var results = await db
+        .collection("education")
+        .where("uid", isEqualTo: user!.uid)
+        .get();
+    return results.docs;
+  }
+
+  static Future<List<QueryDocumentSnapshot<Map<String, dynamic>>>>
+      getExperience() async {
+    User? user = Authentication.auth.currentUser;
+    var results = await db
+        .collection("experience")
+        .where("uid", isEqualTo: user!.uid)
+        .get();
+    return results.docs;
+  }
+
+  static Future<List<QueryDocumentSnapshot<Map<String, dynamic>>>>
+      getSkils() async {
+    User? user = Authentication.auth.currentUser;
+    var results =
+        await db.collection("skills").where("uid", isEqualTo: user!.uid).get();
+    return results.docs;
+  }
+
+  static Future<List<QueryDocumentSnapshot<Map<String, dynamic>>>>
+      getAchievements() async {
+    User? user = Authentication.auth.currentUser;
+    var results = await db
+        .collection("achievements")
+        .where("uid", isEqualTo: user!.uid)
+        .get();
     return results.docs;
   }
 
@@ -38,7 +70,6 @@ class Database {
     await db.collection("skills").add(data);
     return true;
   }
-
 
   static Future<bool> setAchievements(data) async {
     await db.collection("achievements").add(data);
