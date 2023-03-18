@@ -1,10 +1,12 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
 import '../services/authentication.dart';
 import '../services/database.dart';
 
 class Education extends StatefulWidget {
-  const Education({super.key});
+  const Education({super.key, required this.doc});
+  final QueryDocumentSnapshot<Map<String, dynamic>> doc;
 
   @override
   State<Education> createState() => _EducationState();
@@ -15,6 +17,19 @@ class _EducationState extends State<Education> {
   TextEditingController _institutionController = TextEditingController();
   TextEditingController _resultController = TextEditingController();
   TextEditingController _graduationDateController = TextEditingController();
+
+  void getData() async {
+    _degreeController.text = widget.doc['Degree'];
+    _institutionController.text = widget.doc['Institution'];
+    _resultController.text = widget.doc['Result'];
+    _graduationDateController.text = widget.doc['Graduation_Date'];
+  }
+
+  @override
+  void initState() {
+    getData();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {

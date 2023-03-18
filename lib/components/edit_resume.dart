@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:the_pixel_pioneers/components/education.dart';
 
 import '../services/database.dart';
 
@@ -12,14 +13,11 @@ class EditResume extends StatefulWidget {
 
 class _EditResumeState extends State<EditResume> {
 
+  List<QueryDocumentSnapshot<Map<String, dynamic>>> results = <QueryDocumentSnapshot<Map<String, dynamic>>>[];
+
   void getData() async {
-    Database.getEducation();
-    // DocumentSnapshot? doc = await Database.getEducation();
-    // if (doc == null) throw Exception("User Not Found!");
-    // _nameController.text = doc['name'];
-    // _mobileNumberController.text = doc['mobile'];
-    // _linkedinUrlController.text = doc['linkedinurl'];
-    // _experienceController.text = doc['experience'];
+    var results = await Database.getEducation();
+    setState(() => this.results = results);
   }
   @override
   void initState() {
@@ -28,22 +26,6 @@ class _EditResumeState extends State<EditResume> {
   }
 
 
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      body: EditResumeScreen(),
-    );
-  }
-}
-
-class EditResumeScreen extends StatefulWidget {
-  const EditResumeScreen({Key? key}) : super(key: key);
-
-  @override
-  State<EditResumeScreen> createState() => _EditResumeScreenState();
-}
-
-class _EditResumeScreenState extends State<EditResumeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -94,28 +76,26 @@ class _EditResumeScreenState extends State<EditResumeScreen> {
                     Padding(
                       padding: const EdgeInsets.only(left: 20.0, bottom: 20.0),
                       child: Column(
-                        children: [
-                          Container(
-                            child: Row(
-                              children: [
-                                SizedBox(
+                        children: results.map((result) => Container(
+                          child: Row(
+                            children: [
+                              SizedBox(
                                   width: 250,
-                                    child: Text("TEST------------------------------------------------------------")
+                                  child: Text(result.data()['Degree'])
+                              ),
+                              Spacer(),
+                              TextButton(
+                                child: Text(
+                                  "Edit",
+                                  style: TextStyle(fontSize: 12),
                                 ),
-                                Spacer(),
-                                TextButton(
-                                  child: Text(
-                                    "Edit",
-                                    style: TextStyle(fontSize: 12),
-                                  ),
-                                  onPressed: (){
-
-                                  },
-                                )
-                              ],
-                            ),
-                          )
-                        ],
+                                onPressed: () => Navigator.of(context).push(
+                                  MaterialPageRoute(builder: (context) => Education(doc: result)),
+                                ),
+                              )
+                            ],
+                          ),
+                        )).toList(),
                       ),
                     )
                   ],

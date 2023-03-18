@@ -18,13 +18,10 @@ class Database {
     return db.collection("profile").doc(user.uid).get();
   }
 
-  static void getEducation() {
+  static Future<List<QueryDocumentSnapshot<Map<String, dynamic>>>> getEducation() async {
     User? user = Authentication.auth.currentUser;
-    final users = db.collection("education");
-    final query = users.where("uid", isEqualTo: user!.uid);
-    query.get().then((results) => {
-      for (var doc in results.docs) {print(doc['Degree'])}
-    });
+    var results = await db.collection("education").where("uid", isEqualTo: user!.uid).get();
+    return results.docs;
   }
 
   static Future<bool> setEducation(data) async {
