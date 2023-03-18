@@ -43,11 +43,11 @@ class _PreviewState extends State<Preview> {
                   //   ),
                   //   child: Text(""),
                   // )
-                  Container(color: Colors.grey, width: 40, height: 70),
+                  Container(color: Colors.grey, child: SizedBox(width: 40, height: 70,
+                      child: TextButton(onPressed: () => template = Template1(), child: Container())),),
                   SizedBox(width: 20),
-                  Container(color: Colors.grey, width: 40, height: 50),
-                  SizedBox(width: 20),
-                  Container(color: Colors.grey, width: 40, height: 50),
+                  Container(color: Colors.grey, child: SizedBox(width: 40, height: 70,
+                      child: TextButton(onPressed: () => template = Template2(), child: Container())),),
                   SizedBox(width: 20),
                   Container(color: Colors.grey, width: 40, height: 50, child: IconButton(onPressed: () => {}, icon: Icon(Icons.add))),
                 ],
@@ -65,7 +65,7 @@ class _PreviewState extends State<Preview> {
               ),
               Padding(
                 padding: const EdgeInsets.only(right: 20, bottom: 15),
-                child: Image(image: AssetImage("assets/images/resume_sample.jpg"),),
+                child: Image(image: AssetImage("assets/images/template1.jpg"),),
               ),
               SizedBox(
                 width: MediaQuery.of(context).size.width * 0.9,
