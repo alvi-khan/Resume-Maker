@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:the_pixel_pioneers/templates/template1.dart';
+import 'package:the_pixel_pioneers/templates/template2.dart';
+
+import '../templates/template.dart';
 
 class Preview extends StatefulWidget {
   const Preview({Key? key}) : super(key: key);
@@ -9,6 +12,8 @@ class Preview extends StatefulWidget {
 }
 
 class _PreviewState extends State<Preview> {
+  Template template = Template1();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -36,7 +41,7 @@ class _PreviewState extends State<Preview> {
             Text("Preview"),
             Image(image: AssetImage("assets/images/resume_sample.jpg")),
             TextButton(
-                onPressed: () => Template1().generate(),
+                onPressed: () => template.generate(),
                 child: Text("Download"),
                 style: ButtonStyle(
                   backgroundColor: MaterialStateProperty.all<Color>(Colors.greenAccent.shade400),
