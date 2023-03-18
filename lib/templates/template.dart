@@ -4,7 +4,7 @@ import 'package:flutter_html_to_pdf/flutter_html_to_pdf.dart';
 import 'package:path_provider/path_provider.dart';
 
 abstract class Template {
-  String getHtml();
+  Future<String> getHtml();
 
   void generate() async {
     Directory? directory = await getExternalStorageDirectory();
@@ -16,7 +16,7 @@ abstract class Template {
     Directory(targetPath).createSync(recursive: true);
     var targetFileName = "test-pdf.pdf";
 
-    File output = await FlutterHtmlToPdf.convertFromHtmlContent(getHtml(), targetPath, targetFileName);
+    File output = await FlutterHtmlToPdf.convertFromHtmlContent(await getHtml(), targetPath, targetFileName);
     output.createSync(recursive: true);
   }
 }
