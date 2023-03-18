@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:the_pixel_pioneers/templates/template1.dart';
 import 'package:the_pixel_pioneers/templates/template2.dart';
 
 import '../templates/template.dart';
+import 'notification.dart';
+
+final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
 
 class Preview extends StatefulWidget {
   const Preview({Key? key}) : super(key: key);
@@ -13,6 +17,12 @@ class Preview extends StatefulWidget {
 
 class _PreviewState extends State<Preview> {
   Template template = Template1();
+
+  @override
+  void initState(){
+    super.initState();
+    Notification1.initialize(flutterLocalNotificationsPlugin);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -70,7 +80,10 @@ class _PreviewState extends State<Preview> {
               SizedBox(
                 width: MediaQuery.of(context).size.width * 0.9,
                 child: TextButton(
-                    onPressed: () => template.generate(),
+                    onPressed: () {
+                      template.generate();
+                      Notification1.showBigTextNotification(title: "Status", body: "Download Complete", fln: flutterLocalNotificationsPlugin);
+                    },
                     child: Text("Download"),
                     style: ButtonStyle(
                       backgroundColor: MaterialStateProperty.all<Color>(Colors.greenAccent.shade700),

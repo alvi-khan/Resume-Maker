@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:the_pixel_pioneers/components/education.dart';
+import 'package:the_pixel_pioneers/components/preview.dart';
 
 import '../services/database.dart';
 
@@ -241,7 +242,9 @@ class _EditResumeState extends State<EditResume> {
                   padding: const EdgeInsets.symmetric(vertical: 20.0),
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(12.0)),
-                  onPressed: () async {},
+                  onPressed: () => Navigator.of(context).push(
+                    MaterialPageRoute(builder: (context) => Preview()),
+                  ),
                   child: Text(
                     'Preview',
                     style: TextStyle(

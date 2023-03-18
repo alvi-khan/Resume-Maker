@@ -49,6 +49,7 @@ dependencies:
   google_sign_in: ^6.0.2
   flutter_html_to_pdf: ^0.7.0
   path_provider: ^2.0.13
+  flutter_local_notifications: ^13.0.0
 
 dev_dependencies:
   flutter_test:
