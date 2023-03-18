@@ -1,5 +1,7 @@
 
 import 'package:flutter/material.dart' hide ModalBottomSheetRoute;
+import 'package:the_pixel_pioneers/components/edit_profile.dart';
+import 'package:the_pixel_pioneers/services/authentication.dart';
 
 class Profile extends StatefulWidget {
   const Profile({Key? key}) : super(key: key);
@@ -15,6 +17,7 @@ class _ProfileState extends State<Profile> {
       children: [
         ProfileSection(),
         Resumes(),
+        TextButton(onPressed: () => Authentication.auth.signOut(), child: Text("Log Out"))
       ],
     );
   }
@@ -89,7 +92,7 @@ class Modal extends StatelessWidget {
           ),
           TextButton(
               onPressed: () => {},
-              child: Text("Edit esume"),
+              child: Text("Edit Resume"),
               style: ButtonStyle(
                 backgroundColor: MaterialStateProperty.all<Color>(Colors.blueAccent.shade400),
                 foregroundColor: MaterialStateProperty.all<Color>(Colors.white),
@@ -131,7 +134,9 @@ class ProfileSection extends StatelessWidget {
               ),
               Text(profession, style: TextStyle(fontSize: 12), textAlign: TextAlign.right),
               TextButton(
-                  onPressed: () => {},
+                  onPressed: () => Navigator.of(context).push(
+                      MaterialPageRoute(builder: (context) => EditProfile()),
+                  ),
                   child: Text("Edit Profile"),
                   style: ButtonStyle(
                     backgroundColor: MaterialStateProperty.all<Color>(Colors.deepPurple.shade400),

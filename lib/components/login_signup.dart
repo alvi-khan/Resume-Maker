@@ -1,7 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:google_sign_in/google_sign_in.dart';
-import 'package:the_pixel_pioneers/components/profile_screen.dart';
+import 'package:the_pixel_pioneers/services/authentication.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({Key? key}) : super(key: key);
@@ -11,53 +10,9 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      body: LoginScreen(),
-    );
-  }
-}
-
-class LoginScreen extends StatefulWidget {
-  const LoginScreen({Key? key}) : super(key: key);
-
-  @override
-  State<LoginScreen> createState() => _LoginScreenState();
-}
-
-class _LoginScreenState extends State<LoginScreen> {
   FirebaseAuth auth = FirebaseAuth.instance;
 
-  Future<User?> createUser({required String email, required String password}) async {
-    await auth.createUserWithEmailAndPassword(email: email, password: password);
-    return auth.currentUser;
-  }
 
-  Future<User?> signInWithGoogle() async {
-    final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
-    final GoogleSignInAuthentication? googleAuth =
-    await googleUser?.authentication;
-    final credential = GoogleAuthProvider.credential(
-      accessToken: googleAuth?.accessToken,
-      idToken: googleAuth?.idToken,
-    );
-    await auth.signInWithCredential(credential);
-    return auth.currentUser;
-  }
-
-  Future<User?> loginUsingEmailPassword({required String email, required String password}) async {
-    User? user;
-    try{
-      UserCredential userCredential = await auth.signInWithEmailAndPassword(email: email, password: password);
-      user = userCredential.user;
-    } on FirebaseAuthException catch (e){
-      if(e.code == "user-not-found"){
-        print("No user found for that email");
-      }
-    }
-    return user;
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -130,11 +85,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   borderRadius: BorderRadius.circular(12.0)
               ),
               onPressed: () async {
-                User? user = await loginUsingEmailPassword(email: _emailController.text, password: _passwordController.text);
-                print(user);
-                if(user != null){
-                  Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context)=> ProfileScreen()));
-                }
+                Authentication.loginUsingEmailPassword(email: _emailController.text, password: _passwordController.text);
               },
               child: const Text("Login",
                   style: TextStyle(
@@ -155,8 +106,8 @@ class _LoginScreenState extends State<LoginScreen> {
               shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(12.0)
               ),
-              onPressed: () async {
-
+              onPressed: () {
+                Authentication.signInWithGoogle();
               },
               child: const Text("Google Login",
                   style: TextStyle(
@@ -177,8 +128,8 @@ class _LoginScreenState extends State<LoginScreen> {
               shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(12.0)
               ),
-              onPressed: () async {
-                // Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context)=> ProfileScreen()));
+              onPressed: () {
+                Authentication.createUser(email: _emailController.text, password: _passwordController.text);
               },
               child: const Text("SignUp",
                   style: TextStyle(
