@@ -1,23 +1,23 @@
 import 'package:flutter/material.dart';
 
-class Education extends StatefulWidget {
-  const Education({super.key});
+class Experience extends StatefulWidget {
+  const Experience({super.key});
 
   @override
-  State<Education> createState() => _EducationState();
+  State<Experience> createState() => _ExperienceState();
 }
 
-class _EducationState extends State<Education> {
-  TextEditingController _degreeController = TextEditingController();
-  TextEditingController _institutionController = TextEditingController();
-  TextEditingController _resultController = TextEditingController();
-  TextEditingController _graduationDateController = TextEditingController();
-
+class _ExperienceState extends State<Experience> {
+  TextEditingController _organizationController = TextEditingController();
+  TextEditingController _positionController = TextEditingController();
+  TextEditingController _startDateController = TextEditingController();
+  TextEditingController _endDateController = TextEditingController();
+  TextEditingController _summaryController = TextEditingController();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Education'),
+        title: const Text('Experience'),
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -29,7 +29,7 @@ class _EducationState extends State<Education> {
               height: 16.0,
             ),
             const Text(
-              'Degree',
+              'Organization Name',
               style: TextStyle(
                 fontWeight: FontWeight.bold,
                 fontSize: 16,
@@ -39,41 +39,18 @@ class _EducationState extends State<Education> {
               height: 5.0,
             ),
             TextField(
-              controller: _degreeController,
-              minLines: 4,
-              maxLines: null,
-              keyboardType: TextInputType.multiline,
-              decoration: const InputDecoration(
-                border: OutlineInputBorder(),
-                hintText: "Example- BSc in Engineering",
-              ),
-            ),
-            const SizedBox(
-              height: 26.0,
-            ),
-            const Text(
-              'Institution',
-              style: TextStyle(
-                fontWeight: FontWeight.bold,
-                fontSize: 16,
-              ),
-            ),
-            const SizedBox(
-              height: 5.0,
-            ),
-            TextField(
-              controller: _institutionController,
+              controller: _organizationController,
               keyboardType: TextInputType.name,
               decoration: const InputDecoration(
                 border: OutlineInputBorder(),
-                hintText: "Example- IUT",
+                hintText: "Example- Nilavo Technologies ltd.",
               ),
             ),
             const SizedBox(
               height: 26.0,
             ),
             const Text(
-              'Result',
+              'Position',
               style: TextStyle(
                 fontWeight: FontWeight.bold,
                 fontSize: 16,
@@ -83,18 +60,18 @@ class _EducationState extends State<Education> {
               height: 5.0,
             ),
             TextField(
-              controller: _resultController,
-              keyboardType: TextInputType.number,
+              controller: _positionController,
+              keyboardType: TextInputType.name,
               decoration: const InputDecoration(
                 border: OutlineInputBorder(),
-                hintText: "Examination score (CGPA)",
+                hintText: "Example- Software Engineer",
               ),
             ),
             const SizedBox(
               height: 26.0,
             ),
             const Text(
-              'Graduation Date',
+              'Start Date',
               style: TextStyle(
                 fontWeight: FontWeight.bold,
                 fontSize: 16,
@@ -104,11 +81,55 @@ class _EducationState extends State<Education> {
               height: 5.0,
             ),
             TextField(
-              controller: _graduationDateController,
+              controller: _startDateController,
               keyboardType: TextInputType.datetime,
               decoration: const InputDecoration(
                 border: OutlineInputBorder(),
                 hintText: "date/month/year",
+              ),
+            ),
+            const SizedBox(
+              height: 26.0,
+            ),
+            const Text(
+              'End Date',
+              style: TextStyle(
+                fontWeight: FontWeight.bold,
+                fontSize: 16,
+              ),
+            ),
+            const SizedBox(
+              height: 5.0,
+            ),
+            TextField(
+              controller: _endDateController,
+              keyboardType: TextInputType.datetime,
+              decoration: const InputDecoration(
+                border: OutlineInputBorder(),
+                hintText: "date/month/year",
+              ),
+            ),
+            const SizedBox(
+              height: 26.0,
+            ),
+            const Text(
+              'Summary',
+              style: TextStyle(
+                fontWeight: FontWeight.bold,
+                fontSize: 16,
+              ),
+            ),
+            const SizedBox(
+              height: 5.0,
+            ),
+            TextField(
+              controller: _summaryController,
+              minLines: 3,
+              maxLines: null,
+              keyboardType: TextInputType.multiline,
+              decoration: const InputDecoration(
+                border: OutlineInputBorder(),
+                hintText: "A brief description of the works done",
               ),
             ),
             const Spacer(),
@@ -137,5 +158,6 @@ class _EducationState extends State<Education> {
         ),
       ),
     );
+    ;
   }
 }
