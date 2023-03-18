@@ -2,8 +2,10 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:the_pixel_pioneers/components/edit_resume.dart';
+import 'package:the_pixel_pioneers/components/preview.dart';
 import 'package:the_pixel_pioneers/components/profile.dart';
 import 'package:the_pixel_pioneers/firebase_options.dart';
+import 'package:the_pixel_pioneers/services/authentication.dart';
 import '/components/login_signup.dart';
 import '/components/edit_profile.dart';
 
@@ -22,6 +24,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       home: const MyHomePage(),
     );
   }
@@ -39,8 +42,12 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: EditResume(),
-      // body: FirebaseAuth.instance.currentUser == null ? LoginPage() : Profile(),
+      body: StreamBuilder<User?>(
+        stream: Authentication.auth.authStateChanges(),
+        builder: (context, AsyncSnapshot<User?> snapshot) {
+          return snapshot.data == null ? LoginPage() : Profile();
+        },
+      ),
     );
   }
 }

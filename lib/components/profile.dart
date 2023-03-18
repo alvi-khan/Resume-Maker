@@ -13,55 +13,74 @@ class Profile extends StatefulWidget {
 class _ProfileState extends State<Profile> {
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        ProfileSection(),
-        Resumes(),
-        TextButton(onPressed: () => Authentication.auth.signOut(), child: Text("Log Out"))
-      ],
+    return Scaffold(
+        appBar: AppBar(
+            title: Text("Resume Maker"),
+          actions: [IconButton(onPressed: () => Authentication.auth.signOut(), icon: Icon(Icons.logout_rounded))],
+        ),
+        body:Column(
+          children: [
+            ProfileSection(),
+            Resumes(),
+          ],
+        ),
     );
   }
 }
 
 class Resumes extends StatelessWidget {
-  const Resumes({
-    super.key,
-  });
+  const Resumes({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Expanded(
       child: Container(
-        color: Colors.grey,
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.vertical(top: Radius.circular(26), bottom: Radius.zero),
+          color: Color(0xFFD9D9D9),
+        ),
         child: Padding(
-          padding: const EdgeInsets.all(8.0),
+          padding: const EdgeInsets.all(24.0),
           child: Column(
             children: [
               Row(
                 children: [
-                  Text("My Resumes"),
+                  Text("My Resumes", style: TextStyle(fontSize: 24)),
                   Spacer(),
-                  IconButton(onPressed: () => {}, icon: Icon(Icons.add))
+                  IconButton(
+                      onPressed: () => {},
+                      icon: Icon(Icons.add_circle_rounded, color: Color(0xFF6356C7),
+                        size: 36,
+                      )
+                  )
                 ],
               ),
+              SizedBox(height: 16),
               Container(
-                color: Colors.white,
-                padding: const EdgeInsets.all(8.0),
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(8),
+                  color: Colors.white,
+                ),
+                padding: EdgeInsets.all(16),
                 child: Row(
                   children: [
-                    Image(image: AssetImage("assets/images/placeholder.png"), width: 50),
-                    Text("Optimizely"),
+                    Text(
+                      "Optimizely",
+                        style: TextStyle(fontSize: 16)
+                    ),
                     Spacer(),
                     IconButton(
                         onPressed: () async => await showModalBottomSheet(
-                            context: context,
-                            builder: (BuildContext context) => Modal()
+                        context: context,
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(12.0)
                         ),
-                        icon: Icon(Icons.menu),
-                    )
+                        builder: (BuildContext context) => Modal()
+                    ),
+                        icon: Icon(Icons.menu))
                   ],
-                )
-              ),
+                ),
+              )
             ],
           ),
         ),
@@ -77,7 +96,7 @@ class Modal extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
+    return Container(
       padding: const EdgeInsets.all(24.0),
       child: Column(
         mainAxisSize: MainAxisSize.min,
@@ -119,7 +138,7 @@ class ProfileSection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.all(8.0),
+      padding: const EdgeInsets.symmetric(vertical: 48, horizontal: 16),
       child: Row(
         mainAxisSize: MainAxisSize.max,
         children: [
@@ -138,9 +157,9 @@ class ProfileSection extends StatelessWidget {
                       MaterialPageRoute(builder: (context) => EditProfile()),
                   ),
                   child: Text("Edit Profile"),
-                  style: ButtonStyle(
-                    backgroundColor: MaterialStateProperty.all<Color>(Colors.deepPurple.shade400),
-                    foregroundColor: MaterialStateProperty.all<Color>(Colors.white),
+                  style: TextButton.styleFrom(
+                    backgroundColor: Colors.deepPurple.shade400,
+                    foregroundColor: Colors.white,
                   )
               ),
             ],
