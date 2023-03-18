@@ -1,4 +1,3 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:the_pixel_pioneers/services/authentication.dart';
 
@@ -10,9 +9,6 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
-  FirebaseAuth auth = FirebaseAuth.instance;
-
-
 
   @override
   Widget build(BuildContext context) {
@@ -77,21 +73,12 @@ class _LoginPageState extends State<LoginPage> {
           ),
           Container(
             width: double.infinity,
-            child: RawMaterialButton(
-              fillColor: const Color(0xFF0069FE),
-              elevation: 0.0,
-              padding: const EdgeInsets.symmetric(vertical: 20.0),
-              shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(12.0)
+            child: Button(
+              onPressed: () => Authentication.loginUsingEmailPassword(
+                  email: _emailController.text,
+                  password: _passwordController.text
               ),
-              onPressed: () async {
-                Authentication.loginUsingEmailPassword(email: _emailController.text, password: _passwordController.text);
-              },
-              child: const Text("Login",
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 18.0,
-                  )),
+              text: "Login",
             ),
           ),
           const SizedBox(
@@ -99,21 +86,9 @@ class _LoginPageState extends State<LoginPage> {
           ),
           Container(
             width: double.infinity,
-            child: RawMaterialButton(
-              fillColor: const Color(0xFF0069FE),
-              elevation: 0.0,
-              padding: const EdgeInsets.symmetric(vertical: 20.0),
-              shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(12.0)
-              ),
-              onPressed: () {
-                Authentication.signInWithGoogle();
-              },
-              child: const Text("Google Login",
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 18.0,
-                  )),
+            child: Button(
+              onPressed: () => Authentication.signInWithGoogle(),
+              text: "Google Login",
             ),
           ),
           const SizedBox(
@@ -121,25 +96,44 @@ class _LoginPageState extends State<LoginPage> {
           ),
           Container(
             width: double.infinity,
-            child: RawMaterialButton(
-              fillColor: const Color(0xFF0069FE),
-              elevation: 0.0,
-              padding: const EdgeInsets.symmetric(vertical: 20.0),
-              shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(12.0)
+            child: Button(
+              onPressed: () => Authentication.createUser(
+                  email: _emailController.text,
+                  password: _passwordController.text
               ),
-              onPressed: () {
-                Authentication.createUser(email: _emailController.text, password: _passwordController.text);
-              },
-              child: const Text("SignUp",
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 18.0,
-                  )),
+              text: "Sign Up",
             ),
           )
         ],
       ),
+    );
+  }
+}
+
+class Button extends StatelessWidget {
+  const Button({super.key, required this.onPressed, required this.text});
+
+  final void Function() onPressed;
+  final String text;
+
+  @override
+  Widget build(BuildContext context) {
+    return TextButton(
+        onPressed: onPressed,
+        style: TextButton.styleFrom(
+          backgroundColor: const Color(0xFF0069FE),
+          foregroundColor: Colors.white,
+          padding: const EdgeInsets.symmetric(vertical: 20.0),
+          shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(12.0)
+          ),
+        ),
+        child: Text(text,
+            style: const TextStyle(
+              color: Colors.white,
+              fontSize: 18.0,
+            )
+        )
     );
   }
 }

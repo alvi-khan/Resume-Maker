@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:the_pixel_pioneers/services/database.dart';
 
 class EditProfile extends StatefulWidget {
   const EditProfile({Key? key}) : super(key: key);
@@ -9,31 +10,27 @@ class EditProfile extends StatefulWidget {
 }
 
 class _EditProfileState extends State<EditProfile> {
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      body: EditProfileScreen(),
-    );
+  TextEditingController _nameController = TextEditingController();
+  TextEditingController _mobileNumberController = TextEditingController();
+  TextEditingController _linkedinUrlController = TextEditingController();
+  TextEditingController _experienceController = TextEditingController();
+
+  void getData() async {
+    DocumentSnapshot? doc = await Database.getProfile();
+    if (doc == null) throw Exception("User Not Found!");
+    _nameController.text = doc['name'];
+    _mobileNumberController.text = doc['mobile'];
+    _linkedinUrlController.text = doc['linkedinurl'];
+    _experienceController.text = doc['experience'];
   }
-}
-
-
-class EditProfileScreen extends StatefulWidget {
-  const EditProfileScreen({Key? key}) : super(key: key);
-
   @override
-  State<EditProfileScreen> createState() => _EditProfileScreenState();
-}
+  void initState() {
+    getData();
+    super.initState();
+  }
 
-class _EditProfileScreenState extends State<EditProfileScreen> {
   @override
   Widget build(BuildContext context) {
-    TextEditingController _nameController = TextEditingController();
-    TextEditingController _mobileNumberController = TextEditingController();
-    TextEditingController _linkedinUrlController = TextEditingController();
-    TextEditingController _experienceController = TextEditingController();
-
-
     return Scaffold(
       appBar: AppBar(
         title: const Text('Edit Profile'),
@@ -109,30 +106,21 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                     borderRadius: BorderRadius.circular(12.0)
                 ),
                 onPressed: () async {
-                  QueryDocumentSnapshot? flag;
-                  await FirebaseFirestore.instance.collection('profile').get().then((QuerySnapshot querySnapshot) async {
-                    querySnapshot.docs.forEach((doc) {
-                      if(doc["mobile"] == _mobileNumberController.text){
-                        flag = doc;
-                      }
-                    });
-                  });
-                  if(flag!=null){
-                    flag?.reference.update({'name': _nameController.text, 'mobile': _mobileNumberController.text,
-                      'linkedinurl': _linkedinUrlController.text, 'experience': _experienceController.text});
-                  }
-                  else{
-                    FirebaseFirestore.instance
-                        .collection('profile')
-                        .add({'name': _nameController.text, 'mobile': _mobileNumberController.text,
-                              'linkedinurl': _linkedinUrlController.text, 'experience': _experienceController.text});
-                  }
+                  Map<String, String> data = {
+                    'name': _nameController.text,
+                    'mobile': _mobileNumberController.text,
+                    'linkedinurl': _linkedinUrlController.text,
+                    'experience': _experienceController.text
+                  };
+                  Database.setProfile(data);
+                  Navigator.of(context).pop();
                 },
                 child: const Text("Update",
                     style: TextStyle(
                       color: Colors.white,
                       fontSize: 18.0,
-                    )),
+                    )
+                ),
               ),
             ),
           ],
@@ -140,5 +128,4 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
       ),
     );
   }
-
 }
