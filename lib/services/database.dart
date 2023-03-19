@@ -56,11 +56,12 @@ class Database {
     return results.docs;
   }
 
-  static Future<bool> setEducation(data) async {
-    User? user = Authentication.auth.currentUser;
-    QuerySnapshot<Map<String, dynamic>> docs = await db.collection("education").where("uid", isEqualTo: user!.uid).limit(1).get();
-    String docID = docs.docs[0].id;
-    await db.collection("education").doc(docID).set(data);
+  static Future<bool> setEducation(data, String? docID) async {
+    if (docID == null) {
+      await db.collection("education").add(data);
+    } else {
+      await db.collection("education").doc(docID).set(data);
+    }
     return true;
   }
 

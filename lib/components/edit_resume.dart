@@ -14,11 +14,11 @@ class EditResume extends StatefulWidget {
 
 class _EditResumeState extends State<EditResume> {
 
-  List<QueryDocumentSnapshot<Map<String, dynamic>>> results = <QueryDocumentSnapshot<Map<String, dynamic>>>[];
+  List<QueryDocumentSnapshot<Map<String, dynamic>>> educationData = <QueryDocumentSnapshot<Map<String, dynamic>>>[];
 
   void getData() async {
     var results = await Database.getEducation();
-    setState(() => this.results = results);
+    setState(() => this.educationData = results);
   }
   @override
   void initState() {
@@ -61,7 +61,9 @@ class _EditResumeState extends State<EditResume> {
                         Padding(
                           padding: const EdgeInsets.all(20.0),
                           child: IconButton(
-                              onPressed: () => {},
+                              onPressed: () => Navigator.of(context).push(
+                                MaterialPageRoute(builder: (context) => Education()),
+                              ).then((value) => getData()),
                               icon: Icon(Icons.add_circle_rounded, color: Color(0xFF6356C7),
                                 size: 36,
                               )
@@ -72,7 +74,7 @@ class _EditResumeState extends State<EditResume> {
                     Padding(
                       padding: const EdgeInsets.only(left: 20.0, bottom: 20.0),
                       child: Column(
-                        children: results.map((result) => Container(
+                        children: educationData.map((result) => Container(
                           child: Row(
                             children: [
                               SizedBox(

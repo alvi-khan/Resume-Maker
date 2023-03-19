@@ -5,8 +5,8 @@ import '../services/authentication.dart';
 import '../services/database.dart';
 
 class Education extends StatefulWidget {
-  const Education({super.key, required this.docID});
-  final String docID;
+  const Education({super.key, this.docID});
+  final String? docID;
 
   @override
   State<Education> createState() => _EducationState();
@@ -19,6 +19,8 @@ class _EducationState extends State<Education> {
   TextEditingController _graduationDateController = TextEditingController();
 
   void getData() async {
+    if (widget.docID == null) return;
+
     List<QueryDocumentSnapshot<Map<String, dynamic>>> docs = await Database.getEducation();
     QueryDocumentSnapshot<Map<String, dynamic>>? thisDoc;
     for (QueryDocumentSnapshot<Map<String, dynamic>> doc in docs) {
@@ -163,7 +165,7 @@ class _EducationState extends State<Education> {
                         'Institution': _institutionController.text,
                         'Result': _resultController.text
                       };
-                      Database.setEducation(data);
+                      Database.setEducation(data, widget.docID);
                       Navigator.of(context).pop();
                     },
                     child: const Text("Save",
