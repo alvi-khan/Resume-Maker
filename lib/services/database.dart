@@ -18,8 +18,20 @@ class Database {
     return db.collection("profile").doc(user.uid).get();
   }
 
+  static Future<DocumentSnapshot<Map<String, dynamic>>> getEducationDoc({required String docID}) async {
+    var result = await db.collection("education").doc(docID).get();
+    return result;
+  }
+
   static Future<List<QueryDocumentSnapshot<Map<String, dynamic>>>>
-      getEducation() async {
+      getEducation({String? resumeID}) async {
+    print(resumeID);
+    if (resumeID != null) {
+      var resume = await db.collection("resumes").doc(resumeID).get();
+      List<String> docs = List<String>.from(resume.data()!["education"] as List);
+      var results = await db.collection("education").get();
+      return results.docs.where((element) => docs.contains(element.id)).toList();
+    }
     User? user = Authentication.auth.currentUser;
     var results = await db
         .collection("education")
@@ -56,11 +68,19 @@ class Database {
     return results.docs;
   }
 
-  static Future<bool> setEducation(data, String? docID) async {
+  static Future<bool> setEducation(data, String? docID, {String? resumeID}) async {
+    var newDocID;
     if (docID == null) {
-      await db.collection("education").add(data);
+      newDocID = (await db.collection("education").add(data)).id;
     } else {
       await db.collection("education").doc(docID).set(data);
+    }
+
+    if (resumeID != null && newDocID != null) {
+      var data = await db.collection("resumes").doc(resumeID).get();
+      List<String> edu = List<String>.from(data.data()!['education'] as List);
+      edu.add(newDocID);
+      db.collection("resumes").doc(resumeID).update({"education": edu});
     }
     return true;
   }
@@ -87,5 +107,26 @@ class Database {
     String docID = docs.docs[0].id;
     await db.collection("achievements").doc(docID).set(data);
     return true;
+  }
+
+  static Future<List<QueryDocumentSnapshot<Map<String, dynamic>>>>
+  getResumes() async {
+    User? user = Authentication.auth.currentUser;
+    var results = await db
+        .collection("resumes")
+        .where("uid", isEqualTo: user!.uid)
+        .get();
+    return results.docs;
+  }
+  
+  static Future<String> createResume() async {
+    User? user = Authentication.auth.currentUser;
+    List<QueryDocumentSnapshot<Map<String, dynamic>>> docs = await getEducation();
+    List<String> ids = docs.map((e) => e.id).toList();
+    DocumentReference<Map<String, dynamic>> resume = await db.collection("resumes").add({
+      "uid": user!.uid,
+      "education": ids,
+    });
+    return resume.id;
   }
 }

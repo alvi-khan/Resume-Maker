@@ -6,7 +6,8 @@ import 'package:the_pixel_pioneers/components/preview.dart';
 import '../services/database.dart';
 
 class EditResume extends StatefulWidget {
-  const EditResume({Key? key}) : super(key: key);
+  const EditResume({Key? key, this.docID}) : super(key: key);
+  final String? docID;
 
   @override
   State<EditResume> createState() => _EditResumeState();
@@ -17,11 +18,12 @@ class _EditResumeState extends State<EditResume> {
   List<QueryDocumentSnapshot<Map<String, dynamic>>> educationData = <QueryDocumentSnapshot<Map<String, dynamic>>>[];
 
   void getData() async {
-    var results = await Database.getEducation();
+    var results = await Database.getEducation(resumeID: widget.docID);
     setState(() => this.educationData = results);
   }
   @override
   void initState() {
+    print("HERE" + widget.docID!);
     getData();
     super.initState();
   }
@@ -62,7 +64,7 @@ class _EditResumeState extends State<EditResume> {
                           padding: const EdgeInsets.all(20.0),
                           child: IconButton(
                               onPressed: () => Navigator.of(context).push(
-                                MaterialPageRoute(builder: (context) => Education()),
+                                MaterialPageRoute(builder: (context) => Education(resumeID: widget.docID)),
                               ).then((value) => getData()),
                               icon: Icon(Icons.add_circle_rounded, color: Color(0xFF6356C7),
                                 size: 36,
@@ -89,7 +91,7 @@ class _EditResumeState extends State<EditResume> {
                                 ),
                                 onPressed: () => Navigator.of(context).push(
                                   MaterialPageRoute(builder: (context) => Education(docID: result.id)),
-                                ),
+                                ).then((value) => getData()),
                               )
                             ],
                           ),
