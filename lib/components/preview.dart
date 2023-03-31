@@ -6,7 +6,8 @@ import 'package:the_pixel_pioneers/templates/template2.dart';
 import '../templates/template.dart';
 import 'notification.dart';
 
-final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
+final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
+    FlutterLocalNotificationsPlugin();
 
 class Preview extends StatefulWidget {
   const Preview({Key? key}) : super(key: key);
@@ -19,7 +20,7 @@ class _PreviewState extends State<Preview> {
   Template template = Template1();
 
   @override
-  void initState(){
+  void initState() {
     super.initState();
     Notification1.initialize(flutterLocalNotificationsPlugin);
   }
@@ -33,13 +34,12 @@ class _PreviewState extends State<Preview> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text("Templates", style: TextStyle(
-                fontWeight: FontWeight.bold,
-                fontSize: 20
-              ),
+              Text(
+                "Templates",
+                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
               ),
               SizedBox(
-                height: 20,
+                height: 13,
               ),
               Row(
                 children: [
@@ -53,43 +53,114 @@ class _PreviewState extends State<Preview> {
                   //   ),
                   //   child: Text(""),
                   // )
-                  Container(color: Colors.grey, child: SizedBox(width: 40, height: 70,
-                      child: TextButton(onPressed: () => template = Template1(), child: Container())),),
+                  Column(
+                    children: [
+                      Container(
+                        decoration: const BoxDecoration(
+                          image: DecorationImage(
+                              image: AssetImage("assets/images/template3.jpg"),
+                              fit: BoxFit.cover),
+                        ),
+                        child: SizedBox(
+                            width: 40,
+                            height: 70,
+                            child: TextButton(
+                                onPressed: () => template = Template1(),
+                                child: Text(""))),
+                      ),
+                      SizedBox(height: 5),
+                      Text(
+                        "Template 1",
+                        style: TextStyle(
+                          fontSize: 12,
+                          fontWeight: FontWeight.bold
+                        ),
+                      )
+                    ],
+                  ),
+
                   SizedBox(width: 20),
-                  Container(color: Colors.grey, child: SizedBox(width: 40, height: 70,
-                      child: TextButton(onPressed: () => template = Template2(), child: Container())),),
+                  Column(
+                    children: [
+                      Container(
+                        decoration: const BoxDecoration(
+                          image: DecorationImage(
+                              image: AssetImage("assets/images/template4.jpg"),
+                              fit: BoxFit.cover),
+                        ),
+                        child: SizedBox(
+                            width: 40,
+                            height: 70,
+                            child: TextButton(
+                                onPressed: () => template = Template2(),
+                                child: Text(""))),
+                      ),
+                      SizedBox(height: 5),
+                      Text(
+                        "Template 2",
+                        style: TextStyle(
+                            fontSize: 12,
+                            fontWeight: FontWeight.bold
+                        ),
+                      )
+                    ],
+                  ),
                   SizedBox(width: 20),
-                  Container(color: Colors.grey, width: 40, height: 50, child: IconButton(onPressed: () => {}, icon: Icon(Icons.add))),
+                  Column(
+                    children: [
+                      Container(
+                        color: Colors.grey,
+                        child: SizedBox(
+                            width: 40,
+                            height: 70,
+                            child: IconButton(
+                                onPressed: () => {}, icon: Icon(Icons.add))),
+                      ),
+                      SizedBox(height: 5),
+                      Text(
+                        "Add",
+                        style: TextStyle(
+                            fontSize: 12,
+                            fontWeight: FontWeight.bold
+                        ),
+                      )
+                    ],
+                  )
                 ],
               ),
               SizedBox(
-                height: 25,
+                height: 15,
               ),
-              Text("Preview", style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  fontSize: 20
-              ),
+              Text(
+                "Preview",
+                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
               ),
               SizedBox(
                 height: 10,
               ),
               Padding(
                 padding: const EdgeInsets.only(right: 20, bottom: 15),
-                child: Image(image: AssetImage("assets/images/template1.jpg"),),
+                child: Image(
+                  image: AssetImage("assets/images/template1.jpg"),
+                ),
               ),
               SizedBox(
                 width: MediaQuery.of(context).size.width * 0.9,
                 child: TextButton(
                     onPressed: () {
                       template.generate();
-                      Notification1.showBigTextNotification(title: "Status", body: "Download Complete", fln: flutterLocalNotificationsPlugin);
+                      Notification1.showBigTextNotification(
+                          title: "Status",
+                          body: "Download Complete",
+                          fln: flutterLocalNotificationsPlugin);
                     },
                     child: Text("Download"),
                     style: ButtonStyle(
-                      backgroundColor: MaterialStateProperty.all<Color>(Colors.greenAccent.shade700),
-                      foregroundColor: MaterialStateProperty.all<Color>(Colors.white),
-                    )
-                ),
+                      backgroundColor: MaterialStateProperty.all<Color>(
+                          Colors.greenAccent.shade700),
+                      foregroundColor:
+                          MaterialStateProperty.all<Color>(Colors.white),
+                    )),
               ),
             ],
           ),
