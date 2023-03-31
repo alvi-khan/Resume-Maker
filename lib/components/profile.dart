@@ -17,6 +17,18 @@ class Profile extends StatefulWidget {
 
 class _ProfileState extends State<Profile> {
 
+  List<QueryDocumentSnapshot<Map<String, dynamic>>> resumes = <QueryDocumentSnapshot<Map<String, dynamic>>>[];
+
+  void getData() async {
+    var results = await Database.getResumes();
+    setState(() => resumes = results);
+  }
+  @override
+  void initState() {
+    getData();
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -27,7 +39,7 @@ class _ProfileState extends State<Profile> {
         body:Column(
           children: [
             ProfileSection(),
-            Resumes(),
+            Resumes(resumes: resumes, onChange: () => getData()),
           ],
         ),
     );
@@ -35,7 +47,10 @@ class _ProfileState extends State<Profile> {
 }
 
 class Resumes extends StatelessWidget {
-  const Resumes({super.key});
+  const Resumes({super.key, required this.resumes, required this.onChange});
+
+  final List<QueryDocumentSnapshot<Map<String, dynamic>>> resumes;
+  final Function onChange;
 
   @override
   Widget build(BuildContext context) {
@@ -54,7 +69,12 @@ class Resumes extends StatelessWidget {
                   Text("My Resumes", style: TextStyle(fontSize: 24)),
                   Spacer(),
                   IconButton(
-                      onPressed: () => {},
+                      onPressed: () async {
+                        String id = await Database.createResume();
+                        Navigator.of(context).push(
+                          MaterialPageRoute(builder: (context) => EditResume(docID: id)),
+                        ).then((value) => onChange());
+                      },
                       icon: Icon(Icons.add_circle_rounded, color: Color(0xFF6356C7),
                         size: 36,
                       )
@@ -62,7 +82,8 @@ class Resumes extends StatelessWidget {
                 ],
               ),
               SizedBox(height: 16),
-              Container(
+              ...resumes.map((e) => Container(
+                margin: EdgeInsets.symmetric(vertical: 10),
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(8),
                   color: Colors.white,
@@ -81,12 +102,12 @@ class Resumes extends StatelessWidget {
                         shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(36.0)
                         ),
-                        builder: (BuildContext context) => Modal()
+                        builder: (BuildContext context) => Modal(resumeID: e.id)
                     ),
                         icon: Icon(Icons.menu))
                   ],
                 ),
-              )
+              )).toList(),
             ],
           ),
         ),
@@ -98,7 +119,10 @@ class Resumes extends StatelessWidget {
 class Modal extends StatelessWidget {
   const Modal({
     super.key,
+    this.resumeID
   });
+
+  final String? resumeID;
 
   @override
   Widget build(BuildContext context) {
@@ -130,7 +154,7 @@ class Modal extends StatelessWidget {
             height: 50,
             child: TextButton(
                 onPressed: () => Navigator.of(context).push(
-                  MaterialPageRoute(builder: (context) => EditResume()),
+                  MaterialPageRoute(builder: (context) => EditResume(docID: resumeID)),
                 ),
                 child: Text("Edit Resume"),
               style: TextButton.styleFrom(

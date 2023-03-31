@@ -5,8 +5,9 @@ import '../services/authentication.dart';
 import '../services/database.dart';
 
 class Education extends StatefulWidget {
-  const Education({super.key, required this.docID});
-  final String docID;
+  const Education({super.key, this.docID, this.resumeID});
+  final String? docID;
+  final String? resumeID;
 
   @override
   State<Education> createState() => _EducationState();
@@ -19,19 +20,13 @@ class _EducationState extends State<Education> {
   TextEditingController _graduationDateController = TextEditingController();
 
   void getData() async {
-    List<QueryDocumentSnapshot<Map<String, dynamic>>> docs = await Database.getEducation();
-    QueryDocumentSnapshot<Map<String, dynamic>>? thisDoc;
-    for (QueryDocumentSnapshot<Map<String, dynamic>> doc in docs) {
-      if (doc.id == widget.docID) {
-        thisDoc = doc;
-      }
-    }
-    if (thisDoc == null)  throw Exception("Document not found.");
+    if (widget.docID == null) return;
 
-    _degreeController.text = thisDoc.data()['Degree'];
-    _institutionController.text = thisDoc.data()['Institution'];
-    _resultController.text = thisDoc.data()['Result'];
-    _graduationDateController.text = thisDoc.data()['Graduation_Date'];
+    DocumentSnapshot<Map<String, dynamic>> doc = await Database.getEducationDoc(docID: widget.docID!);
+    _degreeController.text = doc.data()!['Degree'];
+    _institutionController.text = doc.data()!['Institution'];
+    _resultController.text = doc.data()!['Result'];
+    _graduationDateController.text = doc.data()!['Graduation_Date'];
   }
 
   @override
@@ -163,7 +158,7 @@ class _EducationState extends State<Education> {
                         'Institution': _institutionController.text,
                         'Result': _resultController.text
                       };
-                      Database.setEducation(data);
+                      await Database.setEducation(data, widget.docID, resumeID: widget.resumeID);
                       Navigator.of(context).pop();
                     },
                     child: const Text("Save",
