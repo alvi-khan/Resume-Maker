@@ -62,53 +62,55 @@ class Resumes extends StatelessWidget {
         ),
         child: Padding(
           padding: const EdgeInsets.all(24.0),
-          child: Column(
-            children: [
-              Row(
-                children: [
-                  Text("My Resumes", style: TextStyle(fontSize: 24)),
-                  Spacer(),
-                  IconButton(
-                      onPressed: () async {
-                        String id = await Database.createResume();
-                        Navigator.of(context).push(
-                          MaterialPageRoute(builder: (context) => EditResume(docID: id)),
-                        ).then((value) => onChange());
-                      },
-                      icon: Icon(Icons.add_circle_rounded, color: Color(0xFF6356C7),
-                        size: 36,
-                      )
-                  )
-                ],
-              ),
-              SizedBox(height: 16),
-              ...resumes.map((e) => Container(
-                margin: EdgeInsets.symmetric(vertical: 10),
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(8),
-                  color: Colors.white,
-                ),
-                padding: EdgeInsets.all(16),
-                child: Row(
+          child: SingleChildScrollView(
+            child: Column(
+              children: [
+                Row(
                   children: [
-                    Text(
-                      "Optimizely",
-                        style: TextStyle(fontSize: 16)
-                    ),
+                    Text("My Resumes", style: TextStyle(fontSize: 24)),
                     Spacer(),
                     IconButton(
-                        onPressed: () async => await showModalBottomSheet(
-                        context: context,
-                        shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(36.0)
-                        ),
-                        builder: (BuildContext context) => Modal(resumeID: e.id)
-                    ),
-                        icon: Icon(Icons.menu))
+                        onPressed: () async {
+                          String id = await Database.createResume();
+                          Navigator.of(context).push(
+                            MaterialPageRoute(builder: (context) => EditResume(docID: id)),
+                          ).then((value) => onChange());
+                        },
+                        icon: Icon(Icons.add_circle_rounded, color: Color(0xFF6356C7),
+                          size: 36,
+                        )
+                    )
                   ],
                 ),
-              )).toList(),
-            ],
+                SizedBox(height: 16),
+                ...resumes.map((e) => Container(
+                  margin: EdgeInsets.symmetric(vertical: 10),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(8),
+                    color: Colors.white,
+                  ),
+                  padding: EdgeInsets.all(16),
+                  child: Row(
+                    children: [
+                      Text(
+                        "Optimizely",
+                          style: TextStyle(fontSize: 16)
+                      ),
+                      Spacer(),
+                      IconButton(
+                          onPressed: () async => await showModalBottomSheet(
+                          context: context,
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(36.0)
+                          ),
+                          builder: (BuildContext context) => Modal(resumeID: e.id)
+                      ),
+                          icon: Icon(Icons.menu))
+                    ],
+                  ),
+                )).toList(),
+              ],
+            ),
           ),
         ),
       ),
