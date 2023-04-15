@@ -23,9 +23,25 @@ class Database {
     return result;
   }
 
+  // static Future<DocumentSnapshot<Map<String, dynamic>>> getCompanyNameDoc({required String resumeID}) async {
+  //   var result = await db.collection("resumes").doc(resumeID).get();
+  //   return result;
+  // }
+
+  static Future<String> getCompanyNameDoc({required String resumeID}) async {
+    var result = await db.collection("resumes").doc(resumeID).get();
+    String companyName = result.data()!["company_name"];
+
+    if(companyName == "No Name"){
+      return "";
+    }
+    else{
+      return companyName;
+    }
+  }
+
   static Future<List<QueryDocumentSnapshot<Map<String, dynamic>>>>
       getEducation({String? resumeID}) async {
-    print(resumeID);
     if (resumeID != null) {
       var resume = await db.collection("resumes").doc(resumeID).get();
       List<String> docs = List<String>.from(resume.data()!["education"] as List);
@@ -38,6 +54,31 @@ class Database {
         .where("uid", isEqualTo: user!.uid)
         .get();
     return results.docs;
+  }
+
+  static Future<String> getCompanyName({String? resumeID}) async {
+    if (resumeID != null) {
+      var resume = await db.collection("resumes").doc(resumeID).get();
+      String docs = resume.data()!["company_name"];
+
+      if(docs == "No Name"){
+        return "No Name";
+      }
+      else{
+        return docs;
+      }
+
+      // var doc = await db.collection("resumes").doc(resumeID).get();
+      // if(doc.exists){
+      //   Map<String, dynamic>? map = doc.data();
+      //   if(map!.containsKey('company_name')){// Replace field by the field you want to check.
+      //     print("ASE");
+      //   }
+      // }
+    }
+    else{
+      return "NULL";
+    }
   }
 
   static Future<List<QueryDocumentSnapshot<Map<String, dynamic>>>>
@@ -85,6 +126,13 @@ class Database {
     return true;
   }
 
+
+  static Future<bool> setCompanyName(data, String? docID, {String? resumeID}) async {
+    db.collection("resumes").doc(resumeID).update({"company_name": data["company_name"]});
+    return true;
+  }
+
+
   static Future<bool> setExperience(data) async {
     User? user = Authentication.auth.currentUser;
     QuerySnapshot<Map<String, dynamic>> docs = await db.collection("experience").where("uid", isEqualTo: user!.uid).limit(1).get();
@@ -126,7 +174,12 @@ class Database {
     DocumentReference<Map<String, dynamic>> resume = await db.collection("resumes").add({
       "uid": user!.uid,
       "education": ids,
+      "company_name": "No Name",
     });
     return resume.id;
+  }
+
+  static void deleteResume(String? resumeID) async {
+    await db.collection("resumes").doc(resumeID).delete();
   }
 }

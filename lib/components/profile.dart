@@ -33,8 +33,9 @@ class _ProfileState extends State<Profile> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-            title: Text("Resume Maker"),
-          actions: [IconButton(onPressed: () => Authentication.auth.signOut(), icon: Icon(Icons.logout_rounded))],
+            title: const Text("Resume Maker"),
+            automaticallyImplyLeading: false,
+            actions: [IconButton(onPressed: () => Authentication.auth.signOut(), icon: Icon(Icons.logout_rounded))],
         ),
         body:Column(
           children: [
@@ -56,7 +57,7 @@ class Resumes extends StatelessWidget {
   Widget build(BuildContext context) {
     return Expanded(
       child: Container(
-        decoration: BoxDecoration(
+        decoration: const BoxDecoration(
           borderRadius: BorderRadius.vertical(top: Radius.circular(26), bottom: Radius.zero),
           color: Color(0xFFD9D9D9),
         ),
@@ -67,8 +68,8 @@ class Resumes extends StatelessWidget {
               children: [
                 Row(
                   children: [
-                    Text("My Resumes", style: TextStyle(fontSize: 24)),
-                    Spacer(),
+                    const Text("My Resumes", style: TextStyle(fontSize: 24)),
+                    const Spacer(),
                     IconButton(
                         onPressed: () async {
                           String id = await Database.createResume();
@@ -76,27 +77,27 @@ class Resumes extends StatelessWidget {
                             MaterialPageRoute(builder: (context) => EditResume(docID: id)),
                           ).then((value) => onChange());
                         },
-                        icon: Icon(Icons.add_circle_rounded, color: Color(0xFF6356C7),
+                        icon: const Icon(Icons.add_circle_rounded, color: Color(0xFF6356C7),
                           size: 36,
                         )
                     )
                   ],
                 ),
-                SizedBox(height: 16),
+                const SizedBox(height: 16),
                 ...resumes.map((e) => Container(
-                  margin: EdgeInsets.symmetric(vertical: 10),
+                  margin: const EdgeInsets.symmetric(vertical: 10),
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(8),
                     color: Colors.white,
                   ),
-                  padding: EdgeInsets.all(16),
+                  padding: const EdgeInsets.all(16),
                   child: Row(
                     children: [
                       Text(
-                        "Optimizely",
-                          style: TextStyle(fontSize: 16)
+                          e.data()['company_name'],
+                          style: const TextStyle(fontSize: 16),
                       ),
-                      Spacer(),
+                      const Spacer(),
                       IconButton(
                           onPressed: () async => await showModalBottomSheet(
                           context: context,
@@ -105,7 +106,7 @@ class Resumes extends StatelessWidget {
                           ),
                           builder: (BuildContext context) => Modal(resumeID: e.id)
                       ),
-                          icon: Icon(Icons.menu))
+                          icon: const Icon(Icons.menu))
                     ],
                   ),
                 )).toList(),
@@ -140,9 +141,9 @@ class Modal extends StatelessWidget {
                 onPressed: () => Navigator.of(context).push(
                   MaterialPageRoute(builder: (context) => Preview()),
                 ),
-                child: Text("Preview Resume"),
+                child: const Text("Preview Resume"),
                 style: TextButton.styleFrom(
-                  backgroundColor: Color(0xFF27AE60),
+                  backgroundColor: const Color(0xFF27AE60),
                   foregroundColor: Colors.white,
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(16),
@@ -150,7 +151,7 @@ class Modal extends StatelessWidget {
                 ),
             ),
           ),
-          SizedBox(height: 20),
+          const SizedBox(height: 20),
           SizedBox(
             width: 300,
             height: 50,
@@ -158,9 +159,9 @@ class Modal extends StatelessWidget {
                 onPressed: () => Navigator.of(context).push(
                   MaterialPageRoute(builder: (context) => EditResume(docID: resumeID)),
                 ),
-                child: Text("Edit Resume"),
+                child: const Text("Edit Resume"),
               style: TextButton.styleFrom(
-                  backgroundColor: Color(0xFF2F80ED),
+                  backgroundColor: const Color(0xFF2F80ED),
                   foregroundColor: Colors.white,
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(16),
@@ -168,15 +169,20 @@ class Modal extends StatelessWidget {
               ),
             ),
           ),
-          SizedBox(height: 20),
+          const SizedBox(height: 20),
           SizedBox(
             width: 300,
             height: 50,
             child: TextButton(
-                onPressed: () => {},
-                child: Text("Delete Resume"),
-              style: TextButton.styleFrom(
-                  backgroundColor: Color(0xFFEB5757),
+                onPressed: () async {
+                  Database.deleteResume(resumeID);
+                  Navigator.of(context).push(
+                    MaterialPageRoute(builder: (context) => Profile()),
+                  );
+                },
+                child: const Text("Delete Resume"),
+                style: TextButton.styleFrom(
+                  backgroundColor: const Color(0xFFEB5757),
                   foregroundColor: Colors.white,
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(16),
@@ -227,21 +233,21 @@ class _ProfileSectionState extends State<ProfileSection> {
       child: Row(
         mainAxisSize: MainAxisSize.max,
         children: [
-          Image(image: AssetImage("assets/images/placeholder.png"), width: 150),
-          Spacer(),
+          const Image(image: AssetImage("assets/images/placeholder.png"), width: 150),
+          const Spacer(),
           Column(
             mainAxisSize: MainAxisSize.min,
             children: [
               Padding(
                 padding: const EdgeInsets.all(8.0),
-                child: Text(name, style: TextStyle(fontWeight: FontWeight.w700, fontSize: 24)),
+                child: Text(name, style: const TextStyle(fontWeight: FontWeight.w700, fontSize: 24)),
               ),
-              Text(profession, style: TextStyle(fontSize: 12), textAlign: TextAlign.right),
+              Text(profession, style: const TextStyle(fontSize: 12), textAlign: TextAlign.right),
               TextButton(
                   onPressed: () => Navigator.of(context).push(
                       MaterialPageRoute(builder: (context) => EditProfile()),
                   ).then((value) => getData()),
-                  child: Text("Edit Profile"),
+                  child: const Text("Edit Profile"),
                   style: TextButton.styleFrom(
                     backgroundColor: Colors.deepPurple.shade400,
                     foregroundColor: Colors.white,

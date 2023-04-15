@@ -1,7 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:the_pixel_pioneers/components/company_name.dart';
 import 'package:the_pixel_pioneers/components/education.dart';
 import 'package:the_pixel_pioneers/components/preview.dart';
+import 'package:the_pixel_pioneers/components/profile.dart';
 
 import '../services/database.dart';
 
@@ -16,14 +18,19 @@ class EditResume extends StatefulWidget {
 class _EditResumeState extends State<EditResume> {
 
   List<QueryDocumentSnapshot<Map<String, dynamic>>> educationData = <QueryDocumentSnapshot<Map<String, dynamic>>>[];
+  String companyNameData = "No Name";
 
   void getData() async {
     var results = await Database.getEducation(resumeID: widget.docID);
-    setState(() => this.educationData = results);
+    var results1 = await Database.getCompanyName(resumeID: widget.docID);
+    setState(() {
+      educationData = results;
+      companyNameData = results1;
+    });
   }
+
   @override
   void initState() {
-    print("HERE" + widget.docID!);
     getData();
     super.initState();
   }
@@ -33,13 +40,63 @@ class _EditResumeState extends State<EditResume> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Center(child: const Text('Edit Resume')),
+        title: const Center(child: Text('Edit Resume')),
+        leading: BackButton(
+          onPressed: () async {
+            Navigator.of(context).push(
+              MaterialPageRoute(builder: (context) => Profile()),
+            );
+          }
+        ),
       ),
       body: Padding(
         padding: const EdgeInsets.only(left: 16.0, right: 16.0, top: 5.0),
         child: SingleChildScrollView(
           child: Column(
             children: [
+              SizedBox(height: 10.0),
+              Card(
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(30),
+                  //set border radius more than 50% of height and width to make circle
+                ),
+                color: Colors.white54,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const Padding(
+                      padding: const EdgeInsets.only(left: 20, top: 20),
+                      child: Text(
+                        'Company Name',
+                        style: TextStyle(
+                            fontSize: 25, fontWeight: FontWeight.bold),
+                      ),
+                    ),
+                    Row(
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.only(left: 25.0),
+                          child: SizedBox(
+                              width: 250,
+                              child: Text(companyNameData)
+                          ),
+                        ),
+                        Spacer(),
+                        TextButton(
+                          child: const Text(
+                            "Edit",
+                            style: TextStyle(fontSize: 12),
+                          ),
+                          onPressed: () => Navigator.of(context).push(
+                            MaterialPageRoute(builder: (context) => Company_name(docID: widget.docID)),
+                          ).then((value) => getData()),
+                        )
+                      ],
+                    ),
+                  ],
+                ),
+              ),
+              SizedBox(height: 20.0),
               Card(
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(30),
@@ -51,7 +108,7 @@ class _EditResumeState extends State<EditResume> {
                   children: [
                     Row(
                       children: [
-                        Padding(
+                        const Padding(
                           padding: const EdgeInsets.only(left: 20),
                           child: Text(
                             'Education',
@@ -59,14 +116,14 @@ class _EditResumeState extends State<EditResume> {
                                 fontSize: 25, fontWeight: FontWeight.bold),
                           ),
                         ),
-                        Spacer(),
+                        const Spacer(),
                         Padding(
                           padding: const EdgeInsets.all(20.0),
                           child: IconButton(
                               onPressed: () => Navigator.of(context).push(
                                 MaterialPageRoute(builder: (context) => Education(resumeID: widget.docID)),
                               ).then((value) => getData()),
-                              icon: Icon(Icons.add_circle_rounded, color: Color(0xFF6356C7),
+                              icon: const Icon(Icons.add_circle_rounded, color: Color(0xFF6356C7),
                                 size: 36,
                               )
                           )
@@ -83,9 +140,9 @@ class _EditResumeState extends State<EditResume> {
                                   width: 250,
                                   child: Text(result.data()['Degree'])
                               ),
-                              Spacer(),
+                              const Spacer(),
                               TextButton(
-                                child: Text(
+                                child: const Text(
                                   "Edit",
                                   style: TextStyle(fontSize: 12),
                                 ),
@@ -115,7 +172,7 @@ class _EditResumeState extends State<EditResume> {
                   children: [
                     Row(
                       children: [
-                        Padding(
+                        const Padding(
                           padding: const EdgeInsets.only(left: 20),
                           child: Text(
                             'Skills',
@@ -123,12 +180,12 @@ class _EditResumeState extends State<EditResume> {
                                 fontSize: 25, fontWeight: FontWeight.bold),
                           ),
                         ),
-                        Spacer(),
+                        const Spacer(),
                         Padding(
                           padding: const EdgeInsets.all(20.0),
                           child: IconButton(
                               onPressed: () => {},
-                              icon: Icon(Icons.add_circle_rounded, color: Color(0xFF6356C7),
+                              icon: const Icon(Icons.add_circle_rounded, color: Color(0xFF6356C7),
                                 size: 36,
                               )
                           )
@@ -138,7 +195,7 @@ class _EditResumeState extends State<EditResume> {
                     Padding(
                       padding: const EdgeInsets.only(left: 20.0, bottom: 20.0),
                       child: Column(
-                        children: [
+                        children: const [
                           Text("About Skills"),
                         ],
                       ),
@@ -160,7 +217,7 @@ class _EditResumeState extends State<EditResume> {
                   children: [
                     Row(
                       children: [
-                        Padding(
+                        const Padding(
                           padding: const EdgeInsets.only(left: 20),
                           child: Text(
                             'Experience',
@@ -168,12 +225,12 @@ class _EditResumeState extends State<EditResume> {
                                 fontSize: 25, fontWeight: FontWeight.bold),
                           ),
                         ),
-                        Spacer(),
+                        const Spacer(),
                         Padding(
                           padding: const EdgeInsets.all(20.0),
                           child: IconButton(
                               onPressed: () => {},
-                              icon: Icon(Icons.add_circle_rounded, color: Color(0xFF6356C7),
+                              icon: const Icon(Icons.add_circle_rounded, color: Color(0xFF6356C7),
                                 size: 36,
                               )
                           )
@@ -183,7 +240,7 @@ class _EditResumeState extends State<EditResume> {
                     Padding(
                       padding: const EdgeInsets.only(left: 20.0, bottom: 20.0),
                       child: Column(
-                        children: [
+                        children: const [
                           Text("About Experience"),
                         ],
                       ),
@@ -205,7 +262,7 @@ class _EditResumeState extends State<EditResume> {
                   children: [
                     Row(
                       children: [
-                        Padding(
+                        const Padding(
                           padding: const EdgeInsets.only(left: 20),
                           child: Text(
                             'Achievement',
@@ -218,7 +275,7 @@ class _EditResumeState extends State<EditResume> {
                           padding: const EdgeInsets.all(20.0),
                           child: IconButton(
                               onPressed: () => {},
-                              icon: Icon(Icons.add_circle_rounded, color: Color(0xFF6356C7),
+                              icon: const Icon(Icons.add_circle_rounded, color: Color(0xFF6356C7),
                                 size: 36,
                               )
                           )
@@ -228,7 +285,7 @@ class _EditResumeState extends State<EditResume> {
                     Padding(
                       padding: const EdgeInsets.only(left: 20.0, bottom: 20.0),
                       child: Column(
-                        children: [
+                        children: const [
                           Text("About Achievement"),
                         ],
                       ),
@@ -249,7 +306,7 @@ class _EditResumeState extends State<EditResume> {
                   onPressed: () => Navigator.of(context).push(
                     MaterialPageRoute(builder: (context) => Preview()),
                   ),
-                  child: Text(
+                  child: const Text(
                     'Preview',
                     style: TextStyle(
                         color: Colors.white,
@@ -269,33 +326,3 @@ class _EditResumeState extends State<EditResume> {
     );
   }
 }
-
-
-
-
-
-
-
-// const SizedBox(
-// height: 50.0,
-// ),
-// Container(
-// width: 150.0,
-// child: RawMaterialButton(
-//
-// fillColor: const Color(0xFF0069FE),
-// elevation: 0.0,
-// padding: const EdgeInsets.symmetric(vertical: 20.0),
-// shape: RoundedRectangleBorder(
-// borderRadius: BorderRadius.circular(12.0)
-// ),
-// onPressed: () {
-//
-// },
-// child: const Text("Add Section",
-// style: TextStyle(
-// color: Colors.white,
-// fontSize: 18.0,
-// )),
-// ),
-// )

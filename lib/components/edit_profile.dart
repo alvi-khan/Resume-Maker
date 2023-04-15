@@ -12,6 +12,7 @@ class EditProfile extends StatefulWidget {
 class _EditProfileState extends State<EditProfile> {
   TextEditingController _nameController = TextEditingController();
   TextEditingController _mobileNumberController = TextEditingController();
+  TextEditingController _addressController = TextEditingController();
   TextEditingController _linkedinUrlController = TextEditingController();
   TextEditingController _experienceController = TextEditingController();
   TextEditingController _professionController = TextEditingController();
@@ -21,6 +22,7 @@ class _EditProfileState extends State<EditProfile> {
     if (doc == null) throw Exception("User Not Found!");
     _nameController.text = doc['name'];
     _mobileNumberController.text = doc['mobile'];
+    _addressController.text = doc['address'];
     _linkedinUrlController.text = doc['linkedinurl'];
     _experienceController.text = doc['experience'];
     _professionController.text = doc['profession'];
@@ -81,7 +83,7 @@ class _EditProfileState extends State<EditProfile> {
                     height: 26.0,
                   ),
                   TextField(
-                    controller: _linkedinUrlController,
+                    controller: _addressController,
                     decoration: const InputDecoration(
                       border: OutlineInputBorder(),
                       hintText: "Address",
@@ -129,6 +131,7 @@ class _EditProfileState extends State<EditProfile> {
                 Map<String, String> data = {
                   'name': _nameController.text,
                   'mobile': _mobileNumberController.text,
+                  'address': _addressController.text,
                   'linkedinurl': _linkedinUrlController.text,
                   'experience': _experienceController.text,
                   'profession': _professionController.text,

@@ -7,7 +7,7 @@ import '../templates/template.dart';
 import 'notification.dart';
 
 final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
-    FlutterLocalNotificationsPlugin();
+FlutterLocalNotificationsPlugin();
 
 class Preview extends StatefulWidget {
   const Preview({Key? key}) : super(key: key);
@@ -72,8 +72,8 @@ class _PreviewState extends State<Preview> {
                       Text(
                         "Template 1",
                         style: TextStyle(
-                          fontSize: 12,
-                          fontWeight: FontWeight.bold
+                            fontSize: 12,
+                            fontWeight: FontWeight.bold
                         ),
                       )
                     ],
@@ -159,7 +159,7 @@ class _PreviewState extends State<Preview> {
                       backgroundColor: MaterialStateProperty.all<Color>(
                           Colors.greenAccent.shade700),
                       foregroundColor:
-                          MaterialStateProperty.all<Color>(Colors.white),
+                      MaterialStateProperty.all<Color>(Colors.white),
                     )),
               ),
             ],
