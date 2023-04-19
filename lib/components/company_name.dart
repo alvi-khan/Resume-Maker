@@ -36,12 +36,12 @@ class _Company_nameState extends State<Company_name> {
       appBar: AppBar(
         title: const Text('Company Name'),
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          children: [
-            Expanded(
-              child: SingleChildScrollView(
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Column(
+            children: [
+              SingleChildScrollView(
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -68,39 +68,36 @@ class _Company_nameState extends State<Company_name> {
                       ),
                     ),
                     const SizedBox(
-                      height: 26.0,
+                      height: 30.0,
+                    ),
+                    SizedBox(
+                      width: double.infinity,
+                      child: RawMaterialButton(
+                        fillColor: Colors.deepPurple,
+                        elevation: 0.0,
+                        padding: const EdgeInsets.symmetric(vertical: 18.0),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(50.0),
+                        ),
+                        onPressed: () async {
+                          Map<String, String> data = {
+                            'company_name': _companyNameController.text
+                          };
+                          await Database.setCompanyName(data, widget.docID, resumeID: widget.docID);
+                          Navigator.of(context).pop();
+                        },
+                        child: const Text("Save",
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 20.0,
+                            )),
+                      ),
                     ),
                   ],
                 ),
               ),
-            ),
-            Align(
-              alignment: FractionalOffset.bottomCenter,
-              child: SizedBox(
-                width: double.infinity,
-                child: RawMaterialButton(
-                  fillColor: Colors.deepPurple,
-                  elevation: 0.0,
-                  padding: const EdgeInsets.symmetric(vertical: 18.0),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(50.0),
-                  ),
-                  onPressed: () async {
-                    Map<String, String> data = {
-                      'company_name': _companyNameController.text
-                    };
-                    await Database.setCompanyName(data, widget.docID, resumeID: widget.docID);
-                    Navigator.of(context).pop();
-                  },
-                  child: const Text("Save",
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 20.0,
-                      )),
-                ),
-              ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );

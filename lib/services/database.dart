@@ -23,11 +23,6 @@ class Database {
     return result;
   }
 
-  // static Future<DocumentSnapshot<Map<String, dynamic>>> getCompanyNameDoc({required String resumeID}) async {
-  //   var result = await db.collection("resumes").doc(resumeID).get();
-  //   return result;
-  // }
-
   static Future<String> getCompanyNameDoc({required String resumeID}) async {
     var result = await db.collection("resumes").doc(resumeID).get();
     String companyName = result.data()!["company_name"];
@@ -39,6 +34,26 @@ class Database {
       return companyName;
     }
   }
+
+
+  static Future<DocumentSnapshot<Map<String, dynamic>>> getSkillsDoc({required String docID}) async {
+    var result = await db.collection("skills").doc(docID).get();
+    return result;
+  }
+
+
+  static Future<DocumentSnapshot<Map<String, dynamic>>> getExperienceDoc({required String docID}) async {
+    var result = await db.collection("experience").doc(docID).get();
+    return result;
+  }
+
+
+  static Future<DocumentSnapshot<Map<String, dynamic>>> getAchievementsDoc({required String docID}) async {
+    var result = await db.collection("achievements").doc(docID).get();
+    return result;
+  }
+
+
 
   static Future<List<QueryDocumentSnapshot<Map<String, dynamic>>>>
       getEducation({String? resumeID}) async {
@@ -81,8 +96,15 @@ class Database {
     }
   }
 
+
   static Future<List<QueryDocumentSnapshot<Map<String, dynamic>>>>
-      getExperience() async {
+      getExperience({String? resumeID}) async {
+    if (resumeID != null) {
+      var resume = await db.collection("resumes").doc(resumeID).get();
+      List<String> docs = List<String>.from(resume.data()!["experience"] as List);
+      var results = await db.collection("experience").get();
+      return results.docs.where((element) => docs.contains(element.id)).toList();
+    }
     User? user = Authentication.auth.currentUser;
     var results = await db
         .collection("experience")
@@ -91,16 +113,32 @@ class Database {
     return results.docs;
   }
 
+
   static Future<List<QueryDocumentSnapshot<Map<String, dynamic>>>>
-      getSkils() async {
+    getSkills({String? resumeID}) async {
+    if (resumeID != null) {
+      var resume = await db.collection("resumes").doc(resumeID).get();
+      List<String> docs = List<String>.from(resume.data()!["skills"] as List);
+      var results = await db.collection("skills").get();
+      return results.docs.where((element) => docs.contains(element.id)).toList();
+    }
     User? user = Authentication.auth.currentUser;
-    var results =
-        await db.collection("skills").where("uid", isEqualTo: user!.uid).get();
+    var results = await db
+        .collection("skills")
+        .where("uid", isEqualTo: user!.uid)
+        .get();
     return results.docs;
   }
 
+
   static Future<List<QueryDocumentSnapshot<Map<String, dynamic>>>>
-      getAchievements() async {
+      getAchievements({String? resumeID}) async {
+    if (resumeID != null) {
+      var resume = await db.collection("resumes").doc(resumeID).get();
+      List<String> docs = List<String>.from(resume.data()!["achievements"] as List);
+      var results = await db.collection("achievements").get();
+      return results.docs.where((element) => docs.contains(element.id)).toList();
+    }
     User? user = Authentication.auth.currentUser;
     var results = await db
         .collection("achievements")
@@ -108,6 +146,7 @@ class Database {
         .get();
     return results.docs;
   }
+
 
   static Future<bool> setEducation(data, String? docID, {String? resumeID}) async {
     var newDocID;
@@ -133,27 +172,55 @@ class Database {
   }
 
 
-  static Future<bool> setExperience(data) async {
-    User? user = Authentication.auth.currentUser;
-    QuerySnapshot<Map<String, dynamic>> docs = await db.collection("experience").where("uid", isEqualTo: user!.uid).limit(1).get();
-    String docID = docs.docs[0].id;
-    await db.collection("experience").doc(docID).set(data);
+  static Future<bool> setExperience(data, String? docID, {String? resumeID}) async {
+    var newDocID;
+    if (docID == null) {
+      newDocID = (await db.collection("experience").add(data)).id;
+    } else {
+      await db.collection("experience").doc(docID).set(data);
+    }
+
+    if (resumeID != null && newDocID != null) {
+      var data = await db.collection("resumes").doc(resumeID).get();
+      List<String> experience = List<String>.from(data.data()!['experience'] as List);
+      experience.add(newDocID);
+      db.collection("resumes").doc(resumeID).update({"experience": experience});
+    }
     return true;
   }
 
-  static Future<bool> setSkills(data) async {
-    User? user = Authentication.auth.currentUser;
-    QuerySnapshot<Map<String, dynamic>> docs = await db.collection("skills").where("uid", isEqualTo: user!.uid).limit(1).get();
-    String docID = docs.docs[0].id;
-    await db.collection("skills").doc(docID).set(data);
+
+  static Future<bool> setSkills(data, String? docID, {String? resumeID}) async {
+    var newDocID;
+    if (docID == null) {
+      newDocID = (await db.collection("skills").add(data)).id;
+    } else {
+      await db.collection("skills").doc(docID).set(data);
+    }
+
+    if (resumeID != null && newDocID != null) {
+      var data = await db.collection("resumes").doc(resumeID).get();
+      List<String> skills = List<String>.from(data.data()!['skills'] as List);
+      skills.add(newDocID);
+      db.collection("resumes").doc(resumeID).update({"skills": skills});
+    }
     return true;
   }
 
-  static Future<bool> setAchievements(data) async {
-    User? user = Authentication.auth.currentUser;
-    QuerySnapshot<Map<String, dynamic>> docs = await db.collection("achievements").where("uid", isEqualTo: user!.uid).limit(1).get();
-    String docID = docs.docs[0].id;
-    await db.collection("achievements").doc(docID).set(data);
+  static Future<bool> setAchievements(data, String? docID, {String? resumeID}) async {
+    var newDocID;
+    if (docID == null) {
+      newDocID = (await db.collection("achievements").add(data)).id;
+    } else {
+      await db.collection("achievements").doc(docID).set(data);
+    }
+
+    if (resumeID != null && newDocID != null) {
+      var data = await db.collection("resumes").doc(resumeID).get();
+      List<String> achievements = List<String>.from(data.data()!['achievements'] as List);
+      achievements.add(newDocID);
+      db.collection("resumes").doc(resumeID).update({"achievements": achievements});
+    }
     return true;
   }
 
@@ -169,17 +236,69 @@ class Database {
   
   static Future<String> createResume() async {
     User? user = Authentication.auth.currentUser;
-    List<QueryDocumentSnapshot<Map<String, dynamic>>> docs = await getEducation();
-    List<String> ids = docs.map((e) => e.id).toList();
+    List<QueryDocumentSnapshot<Map<String, dynamic>>> edu_docs = await getEducation();
+    List<String> edu_ids = edu_docs.map((e) => e.id).toList();
+    List<QueryDocumentSnapshot<Map<String, dynamic>>> skills_docs = await getSkills();
+    List<String> skills_ids = skills_docs.map((e) => e.id).toList();
+    List<QueryDocumentSnapshot<Map<String, dynamic>>> experience_docs = await getExperience();
+    List<String> experience_ids = experience_docs.map((e) => e.id).toList();
+    List<QueryDocumentSnapshot<Map<String, dynamic>>> achievements_docs = await getAchievements();
+    List<String> achievements_ids = achievements_docs.map((e) => e.id).toList();
+
     DocumentReference<Map<String, dynamic>> resume = await db.collection("resumes").add({
       "uid": user!.uid,
-      "education": ids,
+      "education": edu_ids,
       "company_name": "No Name",
+      "skills": skills_ids,
+      "experience": experience_ids,
+      "achievements": achievements_ids,
     });
     return resume.id;
   }
 
+
   static void deleteResume(String? resumeID) async {
     await db.collection("resumes").doc(resumeID).delete();
   }
+
+
+  static Future<bool> deleteEducationFromResume(String? resumeID, var docID) async {
+    var data = await db.collection("resumes").doc(resumeID).get();
+    List<String> edu = List<String>.from(data.data()!['education'] as List);
+    edu.remove(docID);
+    db.collection("resumes").doc(resumeID).update({"education": edu});
+
+    return true;
+  }
+
+
+  static Future<bool> deleteSkillsFromResume(String? resumeID, var docID) async {
+    var data = await db.collection("resumes").doc(resumeID).get();
+    List<String> skills = List<String>.from(data.data()!['skills'] as List);
+    skills.remove(docID);
+    db.collection("resumes").doc(resumeID).update({"skills": skills});
+
+    return true;
+  }
+
+
+  static Future<bool> deleteExperienceFromResume(String? resumeID, var docID) async {
+    var data = await db.collection("resumes").doc(resumeID).get();
+    List<String> experience = List<String>.from(data.data()!['experience'] as List);
+    experience.remove(docID);
+    db.collection("resumes").doc(resumeID).update({"experience": experience});
+
+    return true;
+  }
+
+
+  static Future<bool> deleteAchievementsFromResume(String? resumeID, var docID) async {
+    var data = await db.collection("resumes").doc(resumeID).get();
+    List<String> achievements = List<String>.from(data.data()!['achievements'] as List);
+    achievements.remove(docID);
+    db.collection("resumes").doc(resumeID).update({"achievements": achievements});
+
+    return true;
+  }
+
 }

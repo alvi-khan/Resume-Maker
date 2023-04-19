@@ -10,7 +10,7 @@ class Template2 extends Template{
   Future<String> getHtml() async {
     List<QueryDocumentSnapshot<Map<String, dynamic>>> education = await Database.getEducation();
     List<QueryDocumentSnapshot<Map<String, dynamic>>> experience = await Database.getExperience();
-    List<QueryDocumentSnapshot<Map<String, dynamic>>> skills = await Database.getSkils();
+    List<QueryDocumentSnapshot<Map<String, dynamic>>> skills = await Database.getSkills();
     DocumentSnapshot<Map<String, dynamic>>? profile = await Database.getProfile();
 
     if (profile == null)  throw Exception("User not found!");
