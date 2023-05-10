@@ -2,12 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:the_pixel_pioneers/templates/template1.dart';
 import 'package:the_pixel_pioneers/templates/template2.dart';
+import 'package:flutter_super_html_viewer/flutter_super_html_viewer.dart';
 
 import '../templates/template.dart';
 import 'notification.dart';
 
 final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
-FlutterLocalNotificationsPlugin();
+    FlutterLocalNotificationsPlugin();
 
 class Preview extends StatefulWidget {
   const Preview({Key? key}) : super(key: key);
@@ -18,11 +19,18 @@ class Preview extends StatefulWidget {
 
 class _PreviewState extends State<Preview> {
   Template template = Template1();
+  String htmlData = "";
+
+  void getHtmlData() async {
+    String data = await template.getHtml();
+    setState(() => htmlData = data);
+  }
 
   @override
   void initState() {
     super.initState();
     Notification1.initialize(flutterLocalNotificationsPlugin);
+    getHtmlData();
   }
 
   @override
@@ -62,19 +70,22 @@ class _PreviewState extends State<Preview> {
                               fit: BoxFit.cover),
                         ),
                         child: SizedBox(
-                            width: 40,
-                            height: 70,
-                            child: TextButton(
-                                onPressed: () => template = Template1(),
-                                child: Text(""))),
+                          width: 40,
+                          height: 70,
+                          child: TextButton(
+                            onPressed: () {
+                              setState(() => template = Template1());
+                              getHtmlData();
+                            },
+                            child: Text(""),
+                          ),
+                        ),
                       ),
                       SizedBox(height: 5),
                       Text(
                         "Template 1",
                         style: TextStyle(
-                            fontSize: 12,
-                            fontWeight: FontWeight.bold
-                        ),
+                            fontSize: 12, fontWeight: FontWeight.bold),
                       )
                     ],
                   ),
@@ -89,19 +100,22 @@ class _PreviewState extends State<Preview> {
                               fit: BoxFit.cover),
                         ),
                         child: SizedBox(
-                            width: 40,
-                            height: 70,
-                            child: TextButton(
-                                onPressed: () => template = Template2(),
-                                child: Text(""))),
+                          width: 40,
+                          height: 70,
+                          child: TextButton(
+                            onPressed: () {
+                              setState(() => template = Template2());
+                              getHtmlData();
+                            },
+                            child: Text(""),
+                          ),
+                        ),
                       ),
                       SizedBox(height: 5),
                       Text(
                         "Template 2",
                         style: TextStyle(
-                            fontSize: 12,
-                            fontWeight: FontWeight.bold
-                        ),
+                            fontSize: 12, fontWeight: FontWeight.bold),
                       )
                     ],
                   ),
@@ -120,9 +134,7 @@ class _PreviewState extends State<Preview> {
                       Text(
                         "Add",
                         style: TextStyle(
-                            fontSize: 12,
-                            fontWeight: FontWeight.bold
-                        ),
+                            fontSize: 12, fontWeight: FontWeight.bold),
                       )
                     ],
                   )
@@ -140,9 +152,11 @@ class _PreviewState extends State<Preview> {
               ),
               Padding(
                 padding: const EdgeInsets.only(right: 20, bottom: 15),
-                child: Image(
-                  image: AssetImage("assets/images/template1.jpg"),
-                ),
+                child: htmlData == ""
+                    ? Image(
+                        image: AssetImage("assets/images/template1.jpg"),
+                      )
+                    : ResumePreview(htmlData: htmlData),
               ),
               SizedBox(
                 width: MediaQuery.of(context).size.width * 0.9,
@@ -159,10 +173,47 @@ class _PreviewState extends State<Preview> {
                       backgroundColor: MaterialStateProperty.all<Color>(
                           Colors.greenAccent.shade700),
                       foregroundColor:
-                      MaterialStateProperty.all<Color>(Colors.white),
+                          MaterialStateProperty.all<Color>(Colors.white),
                     )),
               ),
             ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class ResumePreview extends StatelessWidget {
+  const ResumePreview({
+    super.key,
+    required this.htmlData,
+  });
+
+  final String htmlData;
+
+  // scrollable view in two directions allows inner container to be 'bigger' than screen
+  // this results in the generated html  filling the 'bigger' screen properly
+  // transform zooms out to fit the actual screen
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      height: MediaQuery.of(context).size.height - 300,
+      child: SingleChildScrollView(
+        physics: const NeverScrollableScrollPhysics(),
+        child: SizedBox(
+          height: 1920,
+          child: SingleChildScrollView(
+            physics: const NeverScrollableScrollPhysics(),
+            scrollDirection: Axis.horizontal,
+            child: Transform(
+              transform: Matrix4.identity() *
+                  (MediaQuery.of(context).size.width / 1180),
+              child: SizedBox(
+                width: 1080,
+                child: HtmlContentViewer(htmlContent: htmlData),
+              ),
+            ),
           ),
         ),
       ),
