@@ -119,7 +119,7 @@ class _PreviewState extends State<Preview> {
                       )
                     ],
                   ),
-                  SizedBox(width: 20),
+                  SizedBox(width: 25),
                   Column(
                     children: [
                       Container(
@@ -154,7 +154,7 @@ class _PreviewState extends State<Preview> {
                 padding: const EdgeInsets.only(right: 20, bottom: 15),
                 child: htmlData == ""
                     ? Image(
-                        image: AssetImage("assets/images/template1.jpg"),
+                        image: AssetImage("assets/images/white.png"),
                       )
                     : ResumePreview(htmlData: htmlData),
               ),
